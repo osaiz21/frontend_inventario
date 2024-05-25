@@ -1,11 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 
-const Dashboard = () => {
-  const [count, setCount] = useState(0)
+const MainHeader = () => {
+  const { nombres = '',apellidos = ''}  = useSelector(state => state.users.info)
+  const [ name ] = useState( `${nombres} ${apellidos}`)
+  useEffect(() => {
+    
+  },[name])
 
   return (
-    <div className="wrapper">
+    
       <header className="main-header">
     <a href="index2.html" className="logo">
       <span className="logo-mini"><b>A</b>LT</span>
@@ -203,14 +208,14 @@ const Dashboard = () => {
           <li className="dropdown user user-menu">
             <a href="#" className="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.jpg" className="user-image" alt="User Image"/>
-              <span className="hidden-xs">Alexander Pierce</span>
+              <span className="hidden-xs">{`${name}`}</span>
             </a>
             <ul className="dropdown-menu">
               <li className="user-header">
                 <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="User Image"/>
 
                 <p>
-                  Alexander Pierce - Web Developer
+                  {name}
                   <small>Member since Nov. 2012</small>
                 </p>
               </li>
@@ -245,8 +250,7 @@ const Dashboard = () => {
     </nav>
   </header>
 
-    </div>
   )
 }
 
-export default Dashboard
+export default MainHeader

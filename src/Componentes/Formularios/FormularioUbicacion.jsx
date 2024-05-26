@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { crearUbicacionPlano, getUbicacionPlano } from '../../thunks'
+import { crearUbicacionPlano, getUbicacionPlano } from '../../thunks/Ubicaciones'
+import { getAllCiudades, getAllPaises, getAllPisos } from '../../thunks/Paises'
 
 
 const FormularioUbicacion = () => {
-  const [plano, setPlano] = useState({})
-  const [valplano, setValPlano] = useState()
   const dispatch = useDispatch()
   const [formUbicacion, setformUbicacion] = useState({
-    "codigo_plano": "1" ,
+    "codigo_plano": "" ,
     "pais":"",          
     "ciudad":"",        
     "sede": "",
@@ -18,14 +17,22 @@ const FormularioUbicacion = () => {
   })
   const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
   const buscarPlano = (e) => {
-    dispatch(getUbicacionPlano(plano))
+    dispatch(getUbicacionPlano({ 
+      codigo_plano : formUbicacion.codigo_plano
+    }))
   }
 
-  const sendForm = () => {
-    dispatch(crearUbicacionPlano({
-      ...formUbicacion,
-      ...plano
-    }))
+  const sendForm = async () => {
+    try {
+
+      await dispatch(crearUbicacionPlano({
+        ...formUbicacion
+      }))
+      toastr.success(`Se creo Plano Correctamente (${formUbicacion.codigo_plano})`)
+    } catch (error) {
+      const { mns = 'Error no Identificado'} = error.response.data 
+      toastr.error(mns )
+    }
   }
 
   useEffect(() => {
@@ -33,15 +40,46 @@ const FormularioUbicacion = () => {
   },[formUbicacion])
 
   useEffect(() => {
-  },[plano])
+    // Eventos
+    $('#pais').on('select2:select', (e) => {
+      const { id } = e.params.data;
+      setformUbicacion(state => ({
+        ...state,
+        pais: id
+      }))
+    })
+    $('#ciudad').on('select2:select',  (e) => {
+      const { id } = e.params.data;
+      setformUbicacion(state => ({
+        ...state,
+        ciudad: id
+      }))
+    })
+    $('#pisos').on('select2:select',  (e) => {
+      const { id } = e.params.data;
+      setformUbicacion(state => ({
+        ...state,
+        piso: id
+      }))
+    })
+  })
+
+
+  useEffect(() => {
+    // get Paises.
+    dispatch(getAllPaises())
+    dispatch(getAllCiudades())
+    dispatch(getAllPisos())
+    // dispatch(getAllCiudades())
+  },[])
 
   return (
     <>
       <div className="nav-tabs-custom">
             <ul className="nav nav-tabs">
-              <li className="active"><a href="#tab_1" data-toggle="tab">Tab 1</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Tab 2</a></li>
-              <li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
+              <li className="active"><a href="#tab_1" data-toggle="tab">Ubicacion Inventario</a></li>
+              <li><a href="#tab_2" data-toggle="tab">Empleado Empresa</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Activo Fijos</a></li>
               
               <li className="pull-right"><a href="#" className="text-muted"><i className="fa fa-gear"></i></a></li>
             </ul>
@@ -55,13 +93,13 @@ const FormularioUbicacion = () => {
               className="form-control" 
               placeholder="Plano" 
               name='codigo_plano'
-              value={valplano}
+              value={formUbicacion.codigo_plano.toUpperCase()}
               onChange={(e)=> {
-              setPlano( { 
+              setformUbicacion( state => ({
+                  ...state,
                   [e.target.name] : e.target.value
-                }
+                })
               )
-              // setValPlano(e.target.value.toUpperCase())
             }}/>
           </div>
         </div>
@@ -75,56 +113,42 @@ const FormularioUbicacion = () => {
                 <div className="row">
                   <div className="col-xs-6">
                     <div className="form-group">
-                      <input 
-                        type="text" 
-                        className="form-control" 
-                        placeholder="Pais"
-                        name='pais'
-                        onChange={(e)=> {
-                          setformUbicacion( { 
-                              ...formUbicacion,
-                              [e.target.name] : e.target.value
-                            }
-                          )
-                        }}
-                      />
+                      <label>Pais</label>
+                      <select
+                        id="pais"
+                        name="pais"
+                        className="form-control select2"
+                        data-placeholder="Pais"
+                      >
+                      </select>
                     </div>
                   </div>
                   <div className="col-xs-6">
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      placeholder="Ciudad" 
-                      name='ciudad'
-                      onChange={(e)=> {
-                        setformUbicacion( { 
-                            ...formUbicacion,
-                            [e.target.name] : e.target.value
-                          }
-                        )
-                      }}
-                    />
+                    <div className="form-group">
+                      <label>Ciudad</label>
+                      <select
+                        id="ciudad"
+                        name="ciudad"
+                      ></select>
+                    </div>  
                   </div>
                   
                 </div>
                 <div className="row">
                   <div className="col-xs-6">
-                      <input 
-                        type="text" 
-                        className="form-control" 
-                        placeholder="Sede" 
-                        name='sede'
-                        onChange={(e)=> {
-                          setformUbicacion( { 
-                              ...formUbicacion,
-                              [e.target.name] : e.target.value
-                            }
-                          )
-                        }}
-                      />
+                  <div className="form-group">
+                      <label>Piso</label>
+                        <select
+                          id="pisos"
+                          name="pisos"
+                        ></select>
+                    </div>
+                    
                   </div>
                   <div className="col-xs-6">
                     <div className="form-group">
+                    <div className="form-group">
+                      <label>Departamento</label>
                       <input 
                         type="text" 
                         className="form-control" 
@@ -138,32 +162,19 @@ const FormularioUbicacion = () => {
                           )
                         }}
                       />
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-xs-6">
-                    <input 
-                      type="text" 
-                      className="form-control" 
-                      name='ubicacion_fisica'
-                      placeholder="Ubicacion Fisica"
-                      onChange={(e)=> {
-                        setformUbicacion( { 
-                            ...formUbicacion,
-                            [e.target.name] : e.target.value
-                          }
-                        )
-                      }}
-                    />
-                  </div>
-                  <div className="col-xs-6">
-                    <div className="form-group">
+                  <div className="form-group">
+                      <label>Ubicacion Fisica</label>
                       <input 
                         type="text" 
-                        name="piso" 
                         className="form-control" 
-                        placeholder="Piso"
+                        name='ubicacion_fisica'
+                        placeholder="Ubicacion Fisica"
                         onChange={(e)=> {
                           setformUbicacion( { 
                               ...formUbicacion,
@@ -171,14 +182,32 @@ const FormularioUbicacion = () => {
                             }
                           )
                         }}
-                        />
+                      />
+                      </div>
+                  </div>
+                  <div className="col-xs-6">
+                  <div className="form-group">
+                    <label>Sede</label>
+                      <input 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="Sede" 
+                        name='sede'
+                        onChange={(e)=> {
+                          setformUbicacion( { 
+                              ...formUbicacion,
+                              [e.target.name] : e.target.value
+                            }
+                          )
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="col-xs-12">
                     <button 
                       className="btn btn-primary btn-block btn-flat"
                       onClick={sendForm}
-                    >Enviar</button>
+                    >Guardar</button>
                   </div>
                 </div>
               </>

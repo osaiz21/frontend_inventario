@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 
 const MainHeader = () => {
   const { nombres = '',apellidos = ''}  = useSelector(state => state.users.info)
+  const { codigoPlanoSelected }  = useSelector(state => state.ubicacionInventario)
   const [ name ] = useState( `${nombres} ${apellidos}`)
   useEffect(() => {
     
@@ -216,10 +217,10 @@ const MainHeader = () => {
 
                 <p>
                   {name}
-                  <small>Member since Nov. 2012</small>
+                  <small>{codigoPlanoSelected}</small>
                 </p>
               </li>
-              <li className="user-body">
+              {/* <li className="user-body">
                 <div className="row">
                   <div className="col-xs-4 text-center">
                     <a href="#">Followers</a>
@@ -231,11 +232,11 @@ const MainHeader = () => {
                     <a href="#">Friends</a>
                   </div>
                 </div>
-              </li>
+              </li> */}
               <li className="user-footer">
-                <div className="pull-left">
+                {/*<div className="pull-left">
                   <a href="#" className="btn btn-default btn-flat">Profile</a>
-                </div>
+                </div>*/}
                 <div className="pull-right">
                   <a href="#" className="btn btn-default btn-flat">Sign out</a>
                 </div>

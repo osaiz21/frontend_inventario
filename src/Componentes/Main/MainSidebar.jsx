@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 const MainSidebar = () => {
 
   const { nombres = '',apellidos = ''}  = useSelector(state => state.users.info)
+  const { codigoPlanoSelected }  = useSelector(state => state.ubicacionInventario)
   const [ name ] = useState( `${nombres} ${apellidos}`)
   useEffect(() => {
   },[name])
@@ -18,7 +19,7 @@ const MainSidebar = () => {
         </div>
         <div className="pull-left info">
           <p>{name}</p>
-          <a href="#"><i className="fa fa-circle text-success"></i> Online</a>
+          <a href="#"><i className="fa fa-circle text-success"></i> {codigoPlanoSelected} </a>
         </div>
       </div>
       <form action="#" method="get" className="sidebar-form">

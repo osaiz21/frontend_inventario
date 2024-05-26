@@ -4,10 +4,9 @@ import { crearUbicacionPlano, getUbicacionPlano } from '../../thunks/Ubicaciones
 import { getAllCiudades, getAllPaises, getAllPisos } from '../../thunks/Paises'
 import { useForm } from 'react-hook-form'
 import { FormEmpleados } from './FormEmpleados'
-import FormularioInventario from './FormularioInventario'
 
 
-const FormularioUbicacion = () => {
+const FormularioInventario = () => {
   const dispatch = useDispatch()
   const { register, formState:{errors}, handleSubmit } = useForm()
   const [formUbicacion, setformUbicacion] = useState({
@@ -254,7 +253,9 @@ const FormularioUbicacion = () => {
           </div>
           <div className="tab-pane " id="tab_3">
             <div className="row">
-              <FormularioInventario/>
+              <div className="col-xs-12">
+                <p>Hola 3</p>
+              </div>
             </div>  
           </div>
         </div>
@@ -263,4 +264,4 @@ const FormularioUbicacion = () => {
   )
 }
 
-export default FormularioUbicacion
+export default FormularioInventario

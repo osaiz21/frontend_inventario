@@ -16,8 +16,11 @@ const Wrapper = () => {
       <section className="content-header">
         <h1>
           Cod: 
-          <small>{`( ${codigoPlanoSelected} )`}</small>
+          <small>
+            {`( ${codigoPlanoSelected} )`}
+          </small>
         </h1>
+        <br/>
       <ol className="breadcrumb">
         <li><a href="#"><i className="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Examples</a></li>

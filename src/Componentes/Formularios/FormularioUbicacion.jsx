@@ -253,9 +253,7 @@ const FormularioUbicacion = () => {
             <FormEmpleados/>
           </div>
           <div className="tab-pane " id="tab_3">
-            <div className="row">
-              <FormularioInventario/>
-            </div>  
+            <FormularioInventario/>
           </div>
         </div>
       </div>

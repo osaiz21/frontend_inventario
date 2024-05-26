@@ -70,6 +70,6 @@ export const FormEmpleados = () => {
                   />
                 </div>
               </form>
-            </div>  
+        </div>  
     )
 }

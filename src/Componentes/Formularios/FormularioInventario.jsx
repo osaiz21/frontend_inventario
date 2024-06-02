@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { getColores, getDisponibilidad, getEstados, getMarcas, getModelos, getTipoActivos, getTipoMateriales } from '../../thunks/Inventarios'
+import { ViewFiles } from '../Files/ViewFiles'
 
 
 const FormularioInventario = () => {
@@ -32,8 +33,8 @@ const FormularioInventario = () => {
 
   return (
     <>
+    <form onSubmit={handleSubmit(onSubmit)}>
     <div className="row">
-      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="col-xs-6">
         <label>Placa Nueva</label>
           <input
@@ -97,6 +98,8 @@ const FormularioInventario = () => {
             name="id_modelo"
           ></select>
         </div>
+    </div>    
+    <div className="row">    
         <div className="col-xs-6">
           <label>Serie</label>
           <input
@@ -115,32 +118,44 @@ const FormularioInventario = () => {
           />
           {errors.especificacion && <p role="alert">{errors.especificacion?.message}</p>}
         </div>
-        <div className="col-xs-6">
-          <label>Placa Padre</label>
+    </div>
+    <div className="row">
+      <div className="col-xs-6">
+        <label>Placa Padre</label>
+        <input
+          className="form-control"
+          {...register("especificacion", { required: "especificacion is required" })} 
+          aria-invalid={errors.especificacion ? "true" : "false"} 
+        />
+        {errors.especificacion && <p role="alert">{errors.especificacion?.message}</p>}
+      </div>
+      <div className="col-xs-6">
+        <label>Estado</label>
+        <select
+          id="id_estado"
+          name="id_estado"
+        ></select>
+      </div>
+    </div>
+    <div className="row"> 
+      <div className="col-xs-6">
+        <label>Disponibilidad</label>
+        <select
+          id="id_disponibilidad"
+          name="id_disponibilidad"
+        ></select>
+      </div>
+      <div className="col-xs-6">
+          <label>Images</label>
           <input
             className="form-control"
-            {...register("especificacion", { required: "especificacion is required" })} 
+            type="file"
+            name="archivo"
             aria-invalid={errors.especificacion ? "true" : "false"} 
           />
-          {errors.especificacion && <p role="alert">{errors.especificacion?.message}</p>}
         </div>
-        <div className="col-xs-6">
-          <label>Estado</label>
-          <select
-            id="id_estado"
-            name="id_estado"
-          ></select>
-        </div>
-       
-        <div className="col-xs-6">
-          <label>Disponibilidad</label>
-          <select
-            id="id_disponibilidad"
-            name="id_disponibilidad"
-          ></select>
-        </div>
-      
-      
+      </div>
+      <div className="row">
         <div className="col-xs-12">
           <label>Comentario</label>
           <input
@@ -149,8 +164,12 @@ const FormularioInventario = () => {
             aria-invalid={errors.especificacion ? "true" : "false"} 
           />
         </div>
-        
-        
+      </div>
+      <div className="row">
+        <br></br>
+      </div>
+     <ViewFiles/>
+      <div className="row">
         <div className="col-xs-3">
           <br></br>
           <input
@@ -182,8 +201,8 @@ const FormularioInventario = () => {
             className="btn btn-primary btn-block btn-flat"
           >Imprimir</button>
         </div>
-      </form>
      </div>
+      </form>
     </>
   )
 }

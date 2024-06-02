@@ -14,8 +14,8 @@ const MainHeader = () => {
     
       <header className="main-header">
     <a href="index2.html" className="logo">
-      <span className="logo-mini"><b>A</b>LT</span>
-      <span className="logo-lg"><b>Admin</b>LTE</span>
+      <span className="logo-mini"><b>3</b>GS</span>
+      <span className="logo-lg"><b>3</b>GS</span>
     </a>
     <nav className="navbar navbar-static-top">
       <a href="#" className="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -51,7 +51,7 @@ const MainHeader = () => {
                         <img src="dist/img/user3-128x128.jpg" className="img-circle" alt="User Image"/>
                       </div>
                       <h4>
-                        AdminLTE Design Team
+                        3GS Design Team
                         <small><i className="fa fa-clock-o"></i> 2 hours</small>
                       </h4>
                       <p>Why not buy a new awesome theme?</p>

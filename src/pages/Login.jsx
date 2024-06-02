@@ -8,7 +8,7 @@ const Login = () => {
     <div >
       <div className="login-box">
         <div className="login-logo">
-          <a><b>I</b>nventario</a>
+          <a><b>3GS</b> Inventario</a>
         </div>
         <div className="login-box-body">
           <p className="login-box-msg">Sign in to start your session</p>

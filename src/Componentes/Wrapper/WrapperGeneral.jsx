@@ -23,8 +23,8 @@ const Wrapper = () => {
         <br/>
       <ol className="breadcrumb">
         <li><a href="#"><i className="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Examples</a></li>
-        <li className="active">Invoice</li>
+        <li><a href="#">Inventario</a></li>
+        <li className="active">Captura Datos</li>
       </ol>
       </section>
         <FormularioUbicacion/>
@@ -33,7 +33,7 @@ const Wrapper = () => {
         <div className="pull-right hidden-xs">
           <b>Version</b> 2.4.18
         </div>
-        <strong>Copyright &copy; 2014-2019 <a href="">AdminLTE</a>.</strong> All rights
+        <strong>Copyright &copy; 2014-2019 <a href="">3GS</a>.</strong> All rights
         reserved.
       </footer>
     </div>

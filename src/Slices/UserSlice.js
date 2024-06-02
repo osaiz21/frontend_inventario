@@ -4,9 +4,9 @@ const UserSlice = createSlice({
     name: 'users',
     initialState: {
       info: {
-        nombres: 'Jabali',
-        apellidos: 'Jabali 2',
-        email: 'jabali@gmail.com',
+        nombres: 'Nolberto',
+        apellidos: 'Delgado',
+        email: 'Nolberto@gmail.com',
         foto: 'ttt'
       },
       tipo_identificacion:[]

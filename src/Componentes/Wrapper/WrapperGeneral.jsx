@@ -14,28 +14,35 @@ const Wrapper = () => {
       <MainSidebar/>
       <div className="content-wrapper">
       <section className="content-header">
-        <h1>
-          Cod: 
-          <small>
-            {`( ${codigoPlanoSelected} )`}
-          </small>
-        </h1>
-        <br/>
-      <ol className="breadcrumb">
-        <li><a href="#"><i className="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Inventario</a></li>
-        <li className="active">Captura Datos</li>
-      </ol>
+       <div className="container-fluid">
+          <div className="row mb-2">
+          <div className="col-sm-6">
+          <h1 className="m-0">Cod {`( ${codigoPlanoSelected} )`}</h1>
+          </div>
+          <div className="col-sm-6">
+          <ol className="breadcrumb float-sm-right">
+          <li className="breadcrumb-item"><a href="#">Home</a></li>
+          <li className="breadcrumb-item active">Cod {`( ${codigoPlanoSelected} )`}</li>
+          </ol>
+          </div>
+          </div>
+          </div>
       </section>
-        <FormularioUbicacion/>
-      </div>
-      <footer className="main-footer no-print">
-        <div className="pull-right hidden-xs">
-          <b>Version</b> 2.4.18
+      <section className="content">
+        <div className="container-fluid">
+          <FormularioUbicacion/>
         </div>
-        <strong>Copyright &copy; 2014-2019 <a href="">3GS</a>.</strong> All rights
-        reserved.
+      </section>  
+      </div>
+      <footer className="main-footer">
+        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">3GS</a>.</strong>
+        All rights reserved.
+        <div className="float-right d-none d-sm-inline-block">
+          <b>Version</b> 3.2.0
+        </div>
       </footer>
+      <aside className="control-sidebar control-sidebar-dark">
+      </aside>
     </div>
   )
 }

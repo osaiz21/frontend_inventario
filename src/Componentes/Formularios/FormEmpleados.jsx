@@ -16,7 +16,7 @@ export const FormEmpleados = () => {
     return (
         <div className="row">
           <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="col-xs-6">
+          <div className="col-6">
           <label>Tipo Identificacion</label>
             <select
               id="tipo_identificacion_1"
@@ -24,7 +24,7 @@ export const FormEmpleados = () => {
             ></select>
                   
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6">
                   <label>Numero Identificacion</label>
                   <input
                     className="form-control"
@@ -33,7 +33,7 @@ export const FormEmpleados = () => {
                   />
                   {errors.mail && <p role="alert">{errors.mail?.message}</p>}
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6">
                 <label>Nombres</label>
                   <input
                     className="form-control"
@@ -42,7 +42,7 @@ export const FormEmpleados = () => {
                   />
                   {errors.firstName?.type === 'required' && <p role="alert">First name is required</p>}
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6">
                   <label>Apellido</label>
                   <input
                     className="form-control"
@@ -51,7 +51,7 @@ export const FormEmpleados = () => {
                   />
                   {errors.mail && <p role="alert">{errors.mail?.message}</p>}
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6">
                 <label>Cargos</label>
                   <input
                     className="form-control"
@@ -60,7 +60,7 @@ export const FormEmpleados = () => {
                   />
                   {errors.firstName?.type === 'required' && <p role="alert">First name is required</p>}
                 </div>
-                <div className="col-xs-6">
+                <div className="col-6">
                   <label>Cecos</label>
                   <input
                     className="form-control"
@@ -70,7 +70,7 @@ export const FormEmpleados = () => {
                   />
                   {errors.mail && <p role="alert">{errors.mail?.message}</p>}
                 </div>
-                <div className="col-xs-12">
+                <div className="col-12">
                   <br></br>
                   <input
                     className="btn btn-primary btn-block btn-flat"

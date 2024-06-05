@@ -35,7 +35,7 @@ const FormularioInventario = () => {
     <>
     <form onSubmit={handleSubmit(onSubmit)}>
     <div className="row">
-        <div className="col-xs-6">
+        <div className="col-6">
         <label>Placa Nueva</label>
           <input
             className="form-control"
@@ -44,7 +44,7 @@ const FormularioInventario = () => {
           />
           {errors.firstName?.type === 'required' && <p role="alert">First name is required</p>}
         </div>
-        <div className="col-xs-6">
+        <div className="col-6">
           <label>Placa Antigua</label>
           <input
             className="form-control"
@@ -53,28 +53,30 @@ const FormularioInventario = () => {
           />
           {errors.mail && <p role="alert">{errors.mail?.message}</p>}
         </div>
-        <div className="col-xs-6">
+    </div>
+    <div className="row">
+        <div className="col-6">
           <label>Lista Activos</label>
           <select
             id="id_activos"
             name="id_activos"
           ></select>
         </div>
-        <div className="col-xs-6">
+        <div className="col-6">
           <label>Lista Materiales</label>
           <select
             id="id_material"
             name="id_material"
           ></select>
         </div>
-        <div className="col-xs-6">
+        <div className="col-6">
           <label>Colores</label>
           <select
             id="id_color"
             name="id_color"
           ></select>
         </div>
-        <div className="col-xs-6">
+        <div className="col-6">
           <label>Especificaci&oacute;n</label>
           <input
             className="form-control"
@@ -84,14 +86,14 @@ const FormularioInventario = () => {
           {errors.especificacion && <p role="alert">{errors.especificacion?.message}</p>}
         </div>
 
-        <div className="col-xs-6">
+        <div className="col-6">
           <label>Marcas</label>
           <select
             id="id_marca"
             name="id_marca"
           ></select>
         </div>
-        <div className="col-xs-6">
+        <div className="col-6">
           <label>Modelos</label>
           <select
             id="id_modelo"
@@ -100,7 +102,7 @@ const FormularioInventario = () => {
         </div>
     </div>    
     <div className="row">    
-        <div className="col-xs-6">
+        <div className="col-6">
           <label>Serie</label>
           <input
             className="form-control"
@@ -109,7 +111,7 @@ const FormularioInventario = () => {
           />
           {errors.especificacion && <p role="alert">{errors.especificacion?.message}</p>}
         </div>
-        <div className="col-xs-6">
+        <div className="col-6">
           <label>Cantidad</label>
           <input
             className="form-control"
@@ -120,7 +122,7 @@ const FormularioInventario = () => {
         </div>
     </div>
     <div className="row">
-      <div className="col-xs-6">
+      <div className="col-6">
         <label>Placa Padre</label>
         <input
           className="form-control"
@@ -129,7 +131,7 @@ const FormularioInventario = () => {
         />
         {errors.especificacion && <p role="alert">{errors.especificacion?.message}</p>}
       </div>
-      <div className="col-xs-6">
+      <div className="col-6">
         <label>Estado</label>
         <select
           id="id_estado"
@@ -138,14 +140,14 @@ const FormularioInventario = () => {
       </div>
     </div>
     <div className="row"> 
-      <div className="col-xs-6">
+      <div className="col-6">
         <label>Disponibilidad</label>
         <select
           id="id_disponibilidad"
           name="id_disponibilidad"
         ></select>
       </div>
-      <div className="col-xs-6">
+      <div className="col-6">
           <label>Images</label>
           <input
             className="form-control"
@@ -156,7 +158,7 @@ const FormularioInventario = () => {
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-12">
+        <div className="col-12">
           <label>Comentario</label>
           <input
             className="form-control"
@@ -170,32 +172,32 @@ const FormularioInventario = () => {
       </div>
      <ViewFiles/>
       <div className="row">
-        <div className="col-xs-3">
+        <div className="col-3">
           <br></br>
           <input
             className="btn btn-primary btn-block btn-flat"
             type="submit" 
           />
         </div>
-        <div className="col-xs-3">
+        <div className="col-3">
           <br></br>
           <button
             className="btn btn-primary btn-block btn-flat"
           >Crear Area</button>
         </div>
-        <div className="col-xs-3">
+        <div className="col-3">
           <br></br>
           <button
             className="btn btn-primary btn-block btn-flat"
           >Cambiar Sede</button>
         </div>
-        <div className="col-xs-3">
+        <div className="col-3">
           <br></br>
           <button
             className="btn btn-primary btn-block btn-flat"
           >Nic 16</button>
         </div>
-        <div className="col-xs-3">
+        <div className="col-3">
           <br></br>
           <button
             className="btn btn-primary btn-block btn-flat"

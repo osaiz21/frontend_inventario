@@ -66,7 +66,7 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
     })
   },[])
   return (
-    <div className="tab-pane active" id="tab_1">
+      <>
               <div className="row">
                 <div className="col-10">
                   <div className="form-group">
@@ -228,7 +228,7 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
                   </div>
                 </>
               )}
-            </div>
+            </>
   )
 }
 export default UbicacionInventarios

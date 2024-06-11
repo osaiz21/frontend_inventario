@@ -8,8 +8,9 @@ import { ViewFiles } from '../Files/ViewFiles'
 const FormularioInventario = () => {
   const dispatch = useDispatch()
   const { register, formState:{errors}, handleSubmit } = useForm()
-  const [formUbicacion, setformUbicacion] = useState({})
-  const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
+  const [images, setImage] =  useState([])
+  // const [formUbicacion, setformUbicacion] = useState({})
+  // const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
   const buscarPlano = (e) => {
     
   }
@@ -19,7 +20,26 @@ const FormularioInventario = () => {
   const sendForm = async () => {
     
   }
-  
+  const onPreviewFile = (e) => {
+    
+    let arrayFiles = []
+    for (const key in e.target.files) {
+      if (!isNaN(key)) {
+        let imageBase64View = window.URL.createObjectURL(e.target.files[key])
+        let imageFiles = e.target.files[key]
+        let ObjectImages = {
+          imageBase64View,
+          imageFiles
+        }
+        arrayFiles = [...arrayFiles, ObjectImages]
+      }
+    }
+    setImage((state) => [
+        ...state,
+        ...arrayFiles
+      ]
+    )
+  }
   
   useEffect(() => {
     dispatch(getTipoActivos())
@@ -30,6 +50,10 @@ const FormularioInventario = () => {
     dispatch(getEstados())
     dispatch(getDisponibilidad())
   },[])
+
+  useEffect(() => {
+    console.log(images)
+  },[images])
 
   return (
     <>
@@ -152,6 +176,8 @@ const FormularioInventario = () => {
           <input
             className="form-control"
             type="file"
+            multiple
+            onChange={onPreviewFile}
             name="archivo"
             aria-invalid={errors.especificacion ? "true" : "false"} 
           />
@@ -170,7 +196,7 @@ const FormularioInventario = () => {
       <div className="row">
         <br></br>
       </div>
-     <ViewFiles/>
+     <ViewFiles images={images} />
       <div className="row">
         <div className="col-3">
           <br></br>

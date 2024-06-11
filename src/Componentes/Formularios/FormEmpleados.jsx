@@ -2,14 +2,22 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { getTipoIdentificacion } from "../../thunks/Users"
 import { useDispatch } from "react-redux"
+import { createEmpleadosEmpresa } from "../../thunks/EmpleadosEmpresa"
 
 export const FormEmpleados = () => {
     const { register, formState:{errors}, handleSubmit } = useForm()
     // const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
     const dispatch = useDispatch()
-    const onSubmit = (data) => { 
-        console.log(88,data)
+    const onSubmit = async (data) => { 
+      try {
+        const result = await dispatch(createEmpleadosEmpresa(data))
+        console.log(result)
+        toastr.success(`Se creo empleado correctamente (${data.nombres_1})`)
+    } catch (error) {
+        toastr.error(error.message || error.stack || error)
+      }
     }
+    
     useEffect(() => {
       dispatch(getTipoIdentificacion())
     },[])
@@ -23,8 +31,8 @@ export const FormEmpleados = () => {
               <select
                 id="tipo_identificacion_1"
                 name="tipo_identificacion_1"
-                className="form-control select2"
-                data-placeholder="tipo_identificacion_1"
+                {...register("tipo_identificacion_1", { required: "Tipo Identificacion" })} 
+               className={ errors.num_identificacion_1 ? "form-control is-invalid" : "form-control"}
               ></select>
             </div>
           </div>

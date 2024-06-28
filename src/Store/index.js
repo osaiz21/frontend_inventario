@@ -11,6 +11,6 @@ export const store = configureStore({
     ubicacionInventario: UbicacionInventarioSlice,
     paises: PaisSlice,
     inventario: InventarioSlice,
-    files: FilesSlice
+    view_files: FilesSlice
   },
 })

@@ -3,42 +3,40 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { getColores, getDisponibilidad, getEstados, getMarcas, getModelos, getTipoActivos, getTipoMateriales } from '../../thunks/Inventarios'
 import { ViewFiles } from '../Files/ViewFiles'
+import { setFiles } from '../../Slices/FilesSlice'
 
 
 const FormularioInventario = () => {
   const dispatch = useDispatch()
   const { register, formState:{errors}, handleSubmit } = useForm()
-  const [images, setImage] =  useState([])
   // const [formUbicacion, setformUbicacion] = useState({})
   // const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
   const buscarPlano = (e) => {
-    
   }
+  
   const onSubmit = (e) => {
-    
   }
+
   const sendForm = async () => {
-    
   }
+
   const onPreviewFile = (e) => {
     
     let arrayFiles = []
     for (const key in e.target.files) {
       if (!isNaN(key)) {
         let imageBase64View = window.URL.createObjectURL(e.target.files[key])
-        let imageFiles = e.target.files[key]
-        let ObjectImages = {
-          imageBase64View,
-          imageFiles
-        }
-        arrayFiles = [...arrayFiles, ObjectImages]
+        const { name , type } = e.target.files[key]
+        arrayFiles = [...arrayFiles || [],
+          {
+            imageBase64View,
+            name,
+            type
+          }
+        ]
       }
     }
-    setImage((state) => [
-        ...state,
-        ...arrayFiles
-      ]
-    )
+    dispatch(setFiles(arrayFiles))
   }
   
   useEffect(() => {
@@ -52,8 +50,7 @@ const FormularioInventario = () => {
   },[])
 
   useEffect(() => {
-    console.log(images)
-  },[images])
+  },[])
 
   return (
     <>
@@ -196,7 +193,7 @@ const FormularioInventario = () => {
       <div className="row">
         <br></br>
       </div>
-     <ViewFiles images={images} />
+     <ViewFiles/>
       <div className="row">
         <div className="col-3">
           <br></br>

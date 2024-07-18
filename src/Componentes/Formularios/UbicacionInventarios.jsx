@@ -208,19 +208,19 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
                     <tbody>
                       <tr>
                         <th>Codigo Plano:</th>
-                        <td>{infoUbicacion[0].codigo_plano}</td>
+                        <td>{infoUbicacion.codigo_plano}</td>
                       </tr>
                       <tr>
                         <th>Sede:</th>
-                        <td>{infoUbicacion[0].sede}</td>
+                        <td>{infoUbicacion.sede}</td>
                       </tr>
                       <tr>
                         <th>Ubicacion Fisica:</th>
-                        <td>{infoUbicacion[0].ubicacion_fisica}</td>
+                        <td>{infoUbicacion.ubicacion_fisica}</td>
                       </tr>
                       <tr>
                         <th>Piso</th>
-                        <td>{infoUbicacion[0].piso}</td>
+                        <td>{infoUbicacion.piso}</td>
                       </tr>
 
                     </tbody>

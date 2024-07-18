@@ -9,3 +9,4 @@ export const instanceXhr = axios.create({
     }
 })
 
+export const urldataTable = import.meta.env.VITE_ENDPOINT || 'http://localhost:3000'

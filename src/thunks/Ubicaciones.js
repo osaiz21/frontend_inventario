@@ -4,13 +4,13 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "./Paises"
 
 export const getUbicacionPlano = (filtro = {}) => {
     return async (dispatch) => {
-        const { data = [] } = await instanceXhr.get(
+        const { data = {} } = await instanceXhr.get(
             `v1/getUbicacionInventario`,
             { params: filtro}
         )
         dispatch(setCodigoPlano(data))
-        if (!!data.length) {
-            dispatch(setCodigoPlanoSelected(data[0]['codigo_plano']))
+        if (!!Object.keys(data).length) {
+            dispatch(setCodigoPlanoSelected(data))
         }else {
             dispatch(getAllPaises())
             dispatch(getAllCiudades())

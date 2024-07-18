@@ -5,7 +5,7 @@ const Login = () => {
   const [count, setCount] = useState(0)
 
   return (
-    <div >
+    <div className="wrapper">
       <div className="login-box">
         <div className="login-logo">
           <a><b>3GS</b> Inventario</a>

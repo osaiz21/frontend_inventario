@@ -4,7 +4,7 @@ const UbicacionInventarioSlice = createSlice({
     name: 'ubicacionInventario',
     initialState: {
       infoUbicacion: [],
-      codigoPlanoSelected: ''
+      codigoPlanoSelected: {}
     },
     reducers: {
       setCodigoPlano: (state, {payload}) => {

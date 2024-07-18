@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 
 const Wrapper = () => {
   const [count, setCount] = useState(0)
-  const {codigoPlanoSelected} = useSelector(state => state.ubicacionInventario)
+  const { codigo_plano = ''} = useSelector(state => state.ubicacionInventario?.codigoPlanoSelected)
   return (
     <div className="wrapper">
       <MenuHeader/>
@@ -17,12 +17,12 @@ const Wrapper = () => {
        <div className="container-fluid">
           <div className="row mb-2">
           <div className="col-sm-6">
-          <h1 className="m-0">Cod {`( ${codigoPlanoSelected} )`}</h1>
+          <h1 className="m-0">Cod {`( ${codigo_plano} )`}</h1>
           </div>
           <div className="col-sm-6">
           <ol className="breadcrumb float-sm-right">
           <li className="breadcrumb-item"><a href="#">Home</a></li>
-          <li className="breadcrumb-item active">Cod {`( ${codigoPlanoSelected} )`}</li>
+          <li className="breadcrumb-item active">Cod {`( ${codigo_plano} )`}</li>
           </ol>
           </div>
           </div>

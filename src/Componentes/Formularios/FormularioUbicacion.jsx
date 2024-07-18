@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { crearUbicacionPlano, getUbicacionPlano } from '../../thunks/Ubicaciones'
-import { getAllCiudades, getAllPaises, getAllPisos } from '../../thunks/Paises'
 import { useForm } from 'react-hook-form'
 import { FormEmpleados } from './FormEmpleados'
 import FormularioInventario from './FormularioInventario'

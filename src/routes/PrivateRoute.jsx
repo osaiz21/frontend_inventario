@@ -5,6 +5,19 @@ import Wrapper from "../Componentes/Wrapper/WrapperGeneral"
 export const PrivateRoute = ({children}) => {
 
     useEffect(() => {
+        console.log('private')
     },[])
-    return children
+
+    return (
+        <Routes>
+            <Route 
+                path="/wrapper" 
+                element={<Wrapper/>}
+            >
+            </Route>
+            <Route 
+                path="/*" 
+                element={<Wrapper/>}
+            ></Route>
+        </Routes>)
 }

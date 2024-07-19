@@ -1,4 +1,5 @@
-import { Route } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
+import { useEffect } from "react"
 import Login from "../pages/Login"
 
 
@@ -6,13 +7,13 @@ import Login from "../pages/Login"
 export const PublicRoute = () => {
 
     useEffect(() => {
-        console.log('eval token')
+        console.log('public')
     },[])
+
     return(
-      <>
-        <Route path="/">
-          <Route path="login" element={<Login/>}/>
-        </Route>
-      </>
+      <Routes>
+        <Route path="/" element={<Login/>}/>
+        <Route path="/*" element={<Login/>}/>
+      </Routes>
     )
 }

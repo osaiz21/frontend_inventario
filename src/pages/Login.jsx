@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { useDispatch } from 'react-redux';
+import { generatePath, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { validateLogin } from '../thunks/Users';
 
 const schemaLogin = yup.object({
   username: yup.string().required(),
@@ -9,13 +12,33 @@ const schemaLogin = yup.object({
 }).required();
 
 const Login = () => {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  let location = useLocation()
   const { register, handleSubmit, formState:{ errors } } = useForm({
     resolver: yupResolver(schemaLogin)
   })
-  const onSubmit = data => console.log(data);
-  return (
-    <div className="hold-transition login-page">
+
+  const onSubmit = async (data) => {
+    try {
+      const { token } = await dispatch(validateLogin(data))
+      window.localStorage.setItem('token',token)
+      // setToken(token)
+      navigate( '/wrapper')
+      window.location.replace('/wrapper');
+    } catch (error) {
+      console.log(error)
+      // const { data = {} } = error?.response
+      //toastr.error(data?.mns || data?.message || error.stack || error.mns || error)
+    }
+  }
+
+  
+
+  useEffect(() => {
+  },[errors])
+
+  return (<div className="hold-transition login-page">
         <div className="login-box">
           <div className="login-logo">
             <a><b>3GS</b> Inventario</a>
@@ -29,8 +52,9 @@ const Login = () => {
                     {...register("username")}
                     type="text" 
                     name="username" 
-                    className="form-control" 
-                    placeholder="username" 
+                    className= { !errors.username ? "form-control" : "form-control is-invalid" }
+                    placeholder="username"
+
                   />
                   <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
@@ -39,14 +63,17 @@ const Login = () => {
                     {...register("password")}
                     type="password" 
                     name="password" 
-                    className="form-control"
+                    className={ !errors.password ? "form-control" : "form-control is-invalid" }
                     placeholder="Password" 
                   />
                   <span className="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div className="row">
                   <div className="col-12">
-                    {/* <input type="submit" className="btn btn-primary btn-block btn-flat">Sign In</input> */}
+                    <button 
+                      className="btn btn-primary btn-block btn-flat"
+                      type="submit"
+                    >Sign In</button>
                   </div>
                 </div>
               </form>

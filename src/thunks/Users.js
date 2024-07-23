@@ -41,3 +41,13 @@ export const getUsersCecos = (
     }
 }
 
+export const validateLogin = ( body = {}) => {
+    return async (dispatch) => {
+        const { data = {} } = await instanceXhr.post(
+            `v1/loginAuditor`,
+            body
+        )
+        return data
+    }
+}
+

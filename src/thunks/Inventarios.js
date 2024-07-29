@@ -103,12 +103,21 @@ export const getDisponibilidad = (filtro = {}) => {
 
 export const createInventario = (body = {}) => {
     return async (dispatch, getState) => {
-        const { files } = (getState().view_files)
-        console.log(files)
-        /*const { data = {} } = await instanceXhr.post(
-            '/v1/createInventario',
-            
-        )*/
+        //Cargamos Imagenes
+        const fotos = document.getElementById("fotos")
+        const formData = new FormData()
+        for (let i =0; i < fotos.files.length; i++) {
+            formData.append("files", fotos.files[i])
+        }
+        
+        // fetch("http://localhost:5000/upload_files", {
+        //     method: 'POST',
+        //     body: formData,
+        //     headers: {
+        //       "Content-Type": "multipart/form-data"
+        //     }
+        // })
+        
 
     }
 }

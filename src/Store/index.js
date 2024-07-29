@@ -13,4 +13,5 @@ export const store = configureStore({
     inventario: InventarioSlice,
     view_files: FilesSlice
   },
+  
 })

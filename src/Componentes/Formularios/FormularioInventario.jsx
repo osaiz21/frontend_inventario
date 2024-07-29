@@ -1,4 +1,4 @@
-import { useEffect  } from 'react'
+import { useEffect, useState  } from 'react'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import * as yup from "yup";
@@ -10,6 +10,7 @@ import { setFiles } from '../../Slices/FilesSlice'
 const FormularioInventario = () => {
   const dispatch = useDispatch()
   const { register, formState:{errors}, handleSubmit } = useForm()
+  const [arrayFiles,setArrayFiles] = useState([])
 
   const schema = yup.object({
     placa_nueva: yup.string().required(),
@@ -36,23 +37,17 @@ const FormularioInventario = () => {
 
   const onPreviewFile = (e) => {
     
-    let arrayFiles = {}
     for (const key in e.target.files) {
       if (!isNaN(key)) {
         let imageBase64View = window.URL.createObjectURL(e.target.files[key])
         const { name , type } = e.target.files[key]
-        const formdata = new FormData()
-        formdata.append('file', e.target.files[key])
-        arrayFiles = {
-            imageBase64View,
-            name,
-            type,
-            fotos : formdata
-        }
+        setArrayFiles(ant => [...ant, {
+          imageBase64View,
+          name,
+          type
+        }])
       }
     }
-    console.log(arrayFiles)
-    //dispatch(setFiles(arrayFiles))
   }
   
   useEffect(() => {
@@ -64,6 +59,12 @@ const FormularioInventario = () => {
     dispatch(getEstados())
     dispatch(getDisponibilidad())
   },[])
+
+  useEffect(() => {
+    if (!!arrayFiles.length) {
+      dispatch(setFiles(arrayFiles))
+    }
+  },[arrayFiles])
 
   useEffect(() => {
   },[])
@@ -194,7 +195,8 @@ const FormularioInventario = () => {
           type="file"
           multiple
           onChange={onPreviewFile}
-          name="archivo"
+          name="fotos"
+          id="fotos"
           aria-invalid={errors.especificacion ? "true" : "false"} 
         />
       </div>

@@ -14,7 +14,7 @@ const schemaLogin = yup.object({
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  let location = useLocation()
+  // let location = useLocation()
   const { register, handleSubmit, formState:{ errors } } = useForm({
     resolver: yupResolver(schemaLogin)
   })
@@ -27,9 +27,8 @@ const Login = () => {
       navigate( '/wrapper')
       window.location.replace('/wrapper');
     } catch (error) {
-      console.log(error)
-      // const { data = {} } = error?.response
-      //toastr.error(data?.mns || data?.message || error.stack || error.mns || error)
+      const { data = {} } = error?.response
+      toastr.error(data?.mns || data?.message || error.stack || error.mns || error)
     }
   }
 

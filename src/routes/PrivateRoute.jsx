@@ -12,7 +12,6 @@ export const PrivateRoute = ({children}) => {
         )
     }
     useEffect(() => {
-        console.log('private')
     },[])
 
     return (

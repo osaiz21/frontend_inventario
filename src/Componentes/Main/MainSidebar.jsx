@@ -1,13 +1,30 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
+import { validateToken } from "../../thunks/Users"
 
 const MainSidebar = () => {
 
-  const { nombres = '', apellidos = '' } = useSelector(state => state.users.info)
+  const dispatch = useDispatch()
+  const { nombres = '', apellidos = '', foto = '', id = '' } = useSelector(state => state.users.info)
   const { codigoPlanoSelected } = useSelector(state => state.ubicacionInventario)
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
   const [name] = useState(`${nombres} ${apellidos}`)
+
+  const validateAuthorized = async () => {
+    try {
+      if (!!token) {
+        await  dispatch(validateToken(token))
+       }
+    } catch (error) {
+      // Se debe eliminar token.
+    }
+  } 
   useEffect(() => {
-  }, [name])
+  },[id])
+
+  useEffect( () => {
+    validateAuthorized()
+  }, [token])
 
   return (
     <>
@@ -20,7 +37,7 @@ const MainSidebar = () => {
     <div className="sidebar">
       <div className="user-panel mt-3 pb-3 mb-3 d-flex">
         <div className="image">
-          <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image"/>
+          <img src={foto} className="img-circle elevation-2" alt="User Image"/>
         </div>
         <div className="info">
           <a href="#" className="d-block">{name}</a>

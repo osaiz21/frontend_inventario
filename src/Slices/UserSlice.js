@@ -3,17 +3,12 @@ import { createSlice } from '@reduxjs/toolkit'
 const UserSlice = createSlice({
     name: 'users',
     initialState: {
-      info: {
-        nombres: 'Nolberto',
-        apellidos: 'Delgado',
-        email: 'Nolberto@gmail.com',
-        foto: 'ttt'
-      },
+      info: {},
       tipo_identificacion:[]
     },
     reducers: {
-      getPerfil: (state, action) => {
-        state.info = action
+      setPerfil: (state, { payload }) => {
+        state.info = payload
       },
       setIdentificacion: (state, action) => {
         state.tipo_identificacion = action
@@ -21,5 +16,5 @@ const UserSlice = createSlice({
     },
 })
 
-export const { getPerfil , setIdentificacion } = UserSlice.actions
+export const { setPerfil , setIdentificacion } = UserSlice.actions
 export default UserSlice.reducer

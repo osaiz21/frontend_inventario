@@ -1,4 +1,4 @@
-import { setIdentificacion } from "../Slices/UserSlice"
+import { setIdentificacion, setPerfil } from "../Slices/UserSlice"
 import { instanceXhr, urldataTable } from "../axios"
 
 export const getTipoIdentificacion = (filtro = {}) => {
@@ -48,6 +48,22 @@ export const validateLogin = ( body = {}) => {
             body
         )
         return data
+    }
+}
+
+export const validateToken = ( token = '') => {
+    return async (dispatch) => {
+        const { data = {} } = await instanceXhr.post(
+            `v1/validateToken`,
+            {},
+            {
+                headers: {
+                    token_joro: token
+                }
+            }
+        )
+        console.log(data)
+        dispatch(setPerfil(data))
     }
 }
 

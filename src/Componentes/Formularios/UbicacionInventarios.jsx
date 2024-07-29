@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
 import { crearUbicacionPlano, getUbicacionPlano } from "../../thunks/Ubicaciones"
 import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
@@ -34,6 +35,8 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
     }))
   }
 
+  useEffect(() => {
+  },[formUbicacion])
   useEffect(() => {
     // get Paises.
     dispatch(getAllPaises())

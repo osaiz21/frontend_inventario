@@ -21,7 +21,7 @@ export const getTipoMateriales = (filtro = {}) => {
             `v1/getlsMateriales`,
             { params: filtro}
         )
-        $('#id_material').select2({
+        $('#material').select2({
             data,
             width: '100%'
         })
@@ -96,5 +96,19 @@ export const getDisponibilidad = (filtro = {}) => {
             width: '100%'
         })
         //dispatch(setMateriales(data))
+    }
+}
+
+// Create Inventario
+
+export const createInventario = (body = {}) => {
+    return async (dispatch, getState) => {
+        const { files } = (getState().view_files)
+        console.log(files)
+        /*const { data = {} } = await instanceXhr.post(
+            '/v1/createInventario',
+            
+        )*/
+
     }
 }

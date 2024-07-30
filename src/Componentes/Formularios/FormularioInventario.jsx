@@ -24,11 +24,11 @@ const FormularioInventario = () => {
   const buscarPlano = (e) => {
   }
   
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     try {
-      dispatch(createInventario() )
+      await dispatch(createInventario() )
     } catch (error) {
-
+      toastr.error(error.mns || error.stack || error.message || error)
     }
   }
 

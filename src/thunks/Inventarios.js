@@ -107,17 +107,55 @@ export const createInventario = (body = {}) => {
         const fotos = document.getElementById("fotos")
         const formData = new FormData()
         for (let i =0; i < fotos.files.length; i++) {
-            formData.append("files", fotos.files[i])
+            formData.append("fotos", fotos.files[i])
         }
         
-        // fetch("http://localhost:5000/upload_files", {
-        //     method: 'POST',
-        //     body: formData,
-        //     headers: {
-        //       "Content-Type": "multipart/form-data"
-        //     }
-        // })
+        const { data:foto } = await instanceXhr.post(
+            `v1/uploadFiles`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }    
+        )
+        const { id = 0 } = getState().users.info    
         
+        const form = {
+            "id_auditor": id,
+            "id_ubicacion":1,
+            "id_empleado":1,
+            "placa_nueva":"MMW387",
+            "placa_antigua":"MMW386",
+            "id_material":"1",
+            "id_color":1,
+            "especificacion":"Wagon R",
+            "id_marca":1,
+            "id_modelo":1,
+            "serie":"HHHOOII",
+            "cantidad":5,
+            "placapadre":"GGWWOSAIZ",
+            "id_estado":1,
+            "id_disponibilidad":3,
+            "comentario":"Ninguno",
+            "fotos": JSON.stringify(foto),
+            "turnos_dia":"5",
+            "especificacion_tecnica":"Manejo Normal",
+            "horas_uso":"30",
+            "funcion_prestada":"Normal",
+            "id_activos":1,
+            "anio_adquisicion":2019,
+            "periodo_mantenimiento":"2024",
+            "tipo_mantenimiento": 3,
+            "material_procesado":"Acero",
+            "capacidad_productiva":"Acero",
+            "tipo_compra":2,
+            "activo": 1
+        }
 
+        const { data } = await instanceXhr.post(
+            `v1/createInventario`,
+            form    
+        )
     }
 }

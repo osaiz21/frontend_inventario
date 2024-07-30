@@ -62,7 +62,6 @@ export const validateToken = ( token = '') => {
                 }
             }
         )
-        console.log(data)
         dispatch(setPerfil(data))
     }
 }

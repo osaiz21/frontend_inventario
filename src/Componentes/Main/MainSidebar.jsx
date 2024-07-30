@@ -8,19 +8,20 @@ const MainSidebar = () => {
   const { nombres = '', apellidos = '', foto = '', id = '' } = useSelector(state => state.users.info)
   const { codigoPlanoSelected } = useSelector(state => state.ubicacionInventario)
   const [token, setToken] = useState(window.localStorage.getItem('token'))
-  const [name] = useState(`${nombres} ${apellidos}`)
+  const [name, setName] = useState('')
 
   const validateAuthorized = async () => {
     try {
       if (!!token) {
         await  dispatch(validateToken(token))
-       }
+      }
     } catch (error) {
       // Se debe eliminar token.
     }
   } 
   useEffect(() => {
-  },[id])
+    setName(`${nombres} ${apellidos}`)
+  },[nombres])
 
   useEffect( () => {
     validateAuthorized()

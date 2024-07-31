@@ -17,6 +17,11 @@ const MainSidebar = () => {
       }
     } catch (error) {
       // Se debe eliminar token.
+      const { data }  = error.response
+      toastr.error( data.message || 'Error no identificado', (() => {
+        window.localStorage.clear()
+        window.location.reload()
+      })())
     }
   } 
   useEffect(() => {

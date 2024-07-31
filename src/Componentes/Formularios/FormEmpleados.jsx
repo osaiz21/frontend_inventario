@@ -12,7 +12,6 @@ export const FormEmpleados = () => {
     const onSubmit = async (data) => { 
       try {
         const result = await dispatch(createEmpleadosEmpresa(data))
-        console.log(result)
         toastr.success(`Se creo empleado correctamente (${data.nombres_1})`)
       } catch (error) {
         toastr.error(error.message || error.stack || error)

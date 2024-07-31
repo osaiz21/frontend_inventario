@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const UbicacionInventarioSlice = createSlice({
     name: 'ubicacionInventario',
     initialState: {
-      infoUbicacion: [],
+      infoUbicacion: {},
       codigoPlanoSelected: {}
     },
     reducers: {

@@ -9,6 +9,8 @@ export const getUbicacionPlano = (filtro = {}) => {
             { params: filtro}
         )
         dispatch(setCodigoPlano(data))
+        const { id = 0} = data
+        window.localStorage.setItem('ubicacion_inventario_id', id)
         if (!!Object.keys(data).length) {
             dispatch(setCodigoPlanoSelected(data))
         }else {

@@ -7,6 +7,7 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
  const UbicacionInventarios = () => {
   const dispatch = useDispatch()
   const [formUbicacion, setformUbicacion] = useState({
+    id: "",
     "codigo_plano": "" ,
     "pais":"",          
     "ciudad":"",        
@@ -15,7 +16,9 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
     "ubicacion_fisica":"",
     "piso":""  
   })
+
   const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
+  const [id] = useState(window.localStorage.getItem('ubicacion_inventario_id') || 0)
   const sendForm = async () => {
     try {
 
@@ -29,14 +32,21 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
     }
   }
 
-  const buscarPlano = (e) => {
-    dispatch(getUbicacionPlano({ 
-      codigo_plano : formUbicacion.codigo_plano
-    }))
+  const buscarPlano = (criterio = {}) => {
+    dispatch(getUbicacionPlano(criterio))
   }
 
   useEffect(() => {
   },[formUbicacion])
+
+  useEffect(() => {
+    if (!!id) {
+      buscarPlano({
+        id
+      })
+    }
+  },[id])
+
   useEffect(() => {
     // get Paises.
     dispatch(getAllPaises())
@@ -71,7 +81,7 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
   return (
       <>
               <div className="row">
-                <div className="col-10">
+                <div className="col-12">
                   <div className="form-group">
                     <label>Codigo Plano</label>
                     <input 
@@ -89,18 +99,22 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
                       }
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                          buscarPlano()
+                          buscarPlano(
+                            { 
+                              codigo_plano : e.target.value
+                            }
+                          )
                         }
                       }}
                     />
                   </div>
                 </div>
-                <div className="col-2">
+                {/* <div className="col-2">
                   <label>&nbsp;</label>
-                  <button  className="btn btn-primary btn-block btn-flat" onClick={buscarPlano}>Validar</button>
-                </div>
+                  <button  className="btn btn-primary btn-block btn-flat" >Validar</button>
+                </div> */}
               </div>
-              {infoUbicacion.length == 0 ? (
+              {Object.keys(infoUbicacion).length == 0 ? (
                 <>  
                   <div className="row">
                     <div className="col-6">

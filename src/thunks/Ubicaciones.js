@@ -1,9 +1,10 @@
 import { setCodigoPlano, setCodigoPlanoSelected } from "../Slices/UbicacionInventarioSlice"
-import { instanceXhr } from "../axios"
+import { axiosPrivate, instanceXhr } from "../axios"
 import { getAllCiudades, getAllPaises, getAllPisos } from "./Paises"
 
 export const getUbicacionPlano = (filtro = {}) => {
     return async (dispatch) => {
+        const axiospriv = new axiosPrivate()
         const { data = {} } = await instanceXhr.get(
             `v1/getUbicacionInventario`,
             { params: filtro}
@@ -11,7 +12,8 @@ export const getUbicacionPlano = (filtro = {}) => {
         dispatch(setCodigoPlano(data))
         if (!!Object.keys(data).length) {
             dispatch(setCodigoPlanoSelected(data))
-        }else {
+            axiospriv.setItem('codigoPlanoSelected',data)
+        } else {
             dispatch(getAllPaises())
             dispatch(getAllCiudades())
             dispatch(getAllPisos())
@@ -21,14 +23,14 @@ export const getUbicacionPlano = (filtro = {}) => {
 
 export const crearUbicacionPlano = (formData = {}) => {
     return async (dispatch) => {
-        const { data } = await instanceXhr.post(
-                `v1/createUbicacionInventario`,
-                formData
-            )
-            dispatch(setCodigoPlano(data))
-            if (!!data.length) {
-                dispatch(setCodigoPlanoSelected(data[0]['codigo_plano']))
-            }
+      const axiospriv = new axiosPrivate()
+      const { data } = await instanceXhr.post(
+          `v1/createUbicacionInventario`,
+          formData
+      )
+      dispatch(setCodigoPlano(data))
+      dispatch(setCodigoPlanoSelected(data))
+      axiospriv.setItem('codigoPlanoSelected',data)
         
     }
 }

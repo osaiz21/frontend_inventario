@@ -6,7 +6,7 @@ import { createEmpleadosEmpresa } from "../../thunks/EmpleadosEmpresa"
 
 export const FormEmpleados = () => {
     const { register, formState:{errors}, handleSubmit } = useForm()
-    const [ openCollapse, setOpenCollapse] = useState(false)
+    const [ openCollapse, setOpenCollapse] = useState(true)
     // const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
     const dispatch = useDispatch()
     const onSubmit = async (data) => { 
@@ -102,24 +102,6 @@ export const FormEmpleados = () => {
           >
           <div className="card-body">
             <table id="table_users" className="table table-bordered table-striped" style={{with:'100%'}}>
-            <thead>
-              <tr>
-                <th>Identificacion</th>
-                <th>Name</th>
-                <th>Apellido</th>
-                <th>Cargo</th>
-                <th>Cecos</th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-                <th>Identificacion</th>
-                <th>Name</th>
-                <th>Apellido</th>
-                <th>Cargo</th>
-                <th>Cecos</th>
-              </tr>
-            </tfoot>
             </table>
           </div>
           </div>

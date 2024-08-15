@@ -15,7 +15,7 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
     "ubicacion_fisica":"",
     "piso":""  
   })
-  const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
+  const { infoUbicacion, codigoPlanoSelected } = useSelector(state => state.ubicacionInventario)
   const sendForm = async () => {
     try {
 
@@ -29,37 +29,49 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
     }
   }
 
-  const buscarPlano = (e) => {
-    dispatch(getUbicacionPlano({ 
-      codigo_plano : formUbicacion.codigo_plano
-    }))
+  const buscarPlano = async (e) => {
+    try {
+
+      await dispatch(getUbicacionPlano({ 
+        codigo_plano : formUbicacion.codigo_plano
+      }))
+      
+    } catch (error) {
+
+    }
   }
 
   useEffect(() => {
   },[formUbicacion])
+
   useEffect(() => {
     // get Paises.
     dispatch(getAllPaises())
     dispatch(getAllCiudades())
     dispatch(getAllPisos())
-    // dispatch(getAllCiudades())
+
   },[])
+
   useEffect(() => {
     // Eventos
     $('#pais').on('select2:select', (e) => {
       const { id } = e.params.data;
+      console.log('pais', id)
       setformUbicacion(state => ({
         ...state,
         pais: id
       }))
     })
+    
     $('#ciudad').on('select2:select',  (e) => {
       const { id } = e.params.data;
+      
       setformUbicacion(state => ({
         ...state,
         ciudad: id
       }))
     })
+
     $('#pisos').on('select2:select',  (e) => {
       const { id } = e.params.data;
       setformUbicacion(state => ({
@@ -67,7 +79,13 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
         piso: id
       }))
     })
+
   },[])
+
+  useEffect(() => {
+    
+  }, [codigoPlanoSelected])
+
   return (
       <>
               <div className="row">
@@ -100,7 +118,7 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
                   <button  className="btn btn-primary btn-block btn-flat" onClick={buscarPlano}>Validar</button>
                 </div>
               </div>
-              {infoUbicacion.length == 0 ? (
+              {Object.keys(infoUbicacion).length == 0 ? (
                 <>  
                   <div className="row">
                     <div className="col-6">

@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form"
 import { getTipoIdentificacion, getUsersCecos } from "../../thunks/Users"
 import { useDispatch } from "react-redux"
 import { createEmpleadosEmpresa } from "../../thunks/EmpleadosEmpresa"
+import { DataTableCmp } from "../DataTable/DataTable"
 
 export const FormEmpleados = () => {
     const { register, formState:{errors}, handleSubmit } = useForm()
-    const [ openCollapse, setOpenCollapse] = useState(false)
+    const [ openCollapse, setOpenCollapse] = useState(true)
     // const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
     const dispatch = useDispatch()
     const onSubmit = async (data) => { 
@@ -20,7 +21,7 @@ export const FormEmpleados = () => {
     
 
     useEffect(() =>{
-      dispatch(getUsersCecos('table_users'))
+      
     },[openCollapse])
     
     useEffect(() => {
@@ -100,26 +101,7 @@ export const FormEmpleados = () => {
             data-parent="#accordion"
           >
           <div className="card-body">
-            <table id="table_users" className="table table-bordered table-striped" style={{with:'100%'}}>
-            <thead>
-              <tr>
-                <th>Identificacion</th>
-                <th>Name</th>
-                <th>Apellido</th>
-                <th>Cargo</th>
-                <th>Cecos</th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-                <th>Identificacion</th>
-                <th>Name</th>
-                <th>Apellido</th>
-                <th>Cargo</th>
-                <th>Cecos</th>
-              </tr>
-            </tfoot>
-            </table>
+            <DataTableCmp id='table_users' />
           </div>
           </div>
         </div>

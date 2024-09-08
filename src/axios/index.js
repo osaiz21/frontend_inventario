@@ -12,3 +12,89 @@ export const instanceXhr = axios.create({
 
 
 export const urldataTable = import.meta.env.VITE_ENDPOINT || 'http://localhost:3000'
+
+export class axiosPrivate {
+    constructor() {
+        this.sendxhr =  axios.create({
+            baseURL: import.meta.env.VITE_ENDPOINT,
+            headers: {
+                'X-Custom-Header': 'foobar'
+            }
+        })
+        this.setItem = (key = '', value = '') => {
+            window.localStorage.setItem(key, JSON.stringify(value))
+        }
+        this.delItem = (key = '') => {
+            window.localStorage.removeItem(key)
+        }
+
+        this.getItem = (key = '') => {
+            return JSON.parse( window.localStorage.getItem(key))
+        }
+
+        this.getItemKey = (key = '') => {
+            let value =  JSON.parse(window.localStorage.getItem(key))
+            return value['key'] || ''
+        }
+
+    }
+}
+
+export class DataTableGeneral {
+    constructor(name, data, columns) {
+        this.nameDataTable = name;
+        this.data = data
+        this.columns = columns
+        this.selected = []
+        this.id = 0
+        //window[`dt_${name}`] = name
+        // window[`dt_${name}`] = new DataTable(`#${name}`)
+    }
+    createDataTable = () => {
+        // this.addEventListener('click', () => { console.log('oswald')} , false)
+        window[`dtg_${this.nameDataTable}`] = {
+            ...this,
+            ...new DataTable(`#${this.nameDataTable}`, 
+                {
+                    processing: true,
+                    // serverSide: true,
+                    autoWidth: false,
+                    columns: this.columns,              
+                    data: this.data,
+                    destroy: true,
+                    searching: false,
+                    select: true,
+                    rowCallback: ( row, data, displayIndex ) => {
+                        if ( $.inArray(data.id, this.selected) !== -1 ) {
+                            $(row).addClass('selected');
+                        }
+                    },
+                    select: {
+                        style: 'os',
+                        selector: 'td:first-child'
+                    }
+                }
+            )
+        } 
+        
+        window[`dtg_${this.nameDataTable}`].on('click', 'tbody tr',  (e) => {
+                let classList = e.currentTarget.classList
+                if (classList.contains('selected')) {
+                    classList.remove('selected')
+                    let narray = window[`dtg_${this.nameDataTable}`].selected.filter( ({position = 0}, indice) => position != e.currentTarget._DT_RowIndex)
+                    window[`dtg_${this.nameDataTable}`].selected = narray        
+                    
+                } else {
+                    classList.add('selected')
+                    window[`dtg_${this.nameDataTable}`].selected = [
+                        ...window[`dtg_${this.nameDataTable}`].selected || [],
+                        {
+                            ...window[`dtg_${this.nameDataTable}`].row(e.currentTarget._DT_RowIndex).data(),
+                            position : e.currentTarget._DT_RowIndex
+                        }
+                    ]
+                }
+            } 
+        )
+    }
+}

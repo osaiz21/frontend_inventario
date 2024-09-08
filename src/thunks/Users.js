@@ -1,5 +1,5 @@
-import { setIdentificacion, setPerfil } from "../Slices/UserSlice"
-import { instanceXhr, urldataTable } from "../axios"
+import { setEmpleados, setIdentificacion, setPerfil } from "../Slices/UserSlice"
+import { DataTableGeneral, instanceXhr } from "../axios"
 
 export const getTipoIdentificacion = (filtro = {}) => {
     return async (dispatch) => {
@@ -19,25 +19,27 @@ export const getUsersCecos = (
     nameDiv = 'sin_definir',
     params = {}
 ) => {
-    return async (dispatch) => {
-        let columns = [] 
-        new DataTable(`#${nameDiv}`, {
-            processing: true,
-            // serverSide: true,
-            ajax : {
-                url: `${urldataTable}v1/dataTable`,
-                dataSrc:""
-            },
-            columns: [
-                { data: 'num_identificacion_1' },
-                { data: 'nombres_1' },
-                { data: 'apellidos_1' },
-                { data: 'cargo_1' },
-                { data: 'cecos_1' }
-            ],              
-            destroy: true,
-            searching: false
-        })
+    return async (dispatch , getEstate ) => {
+
+        const { data = [] } = await instanceXhr.get(
+            `v1/getUsersCecos`
+        )
+        
+        dispatch(setEmpleados(data))
+        const table = new DataTableGeneral(
+            nameDiv,
+            data,
+            [
+                { data: 'id', title: 'id'  },
+                { data: 'tipo_identificacion_1', title: 'tipo_identificacion_1' },
+                { data: 'num_identificacion_1', title: 'num_identificacion_1' },
+                { data: 'nombres_1', title: 'nombres_1' },
+                { data: 'apellidos_1', title: 'apellidos_1' },
+                { data: 'cargo_1', title: 'cargo_1' },
+                { data: 'cecos_1', title: 'cecos_1' }
+            ]
+        )
+        table.createDataTable()
     }
 }
 

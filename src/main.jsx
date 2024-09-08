@@ -7,11 +7,11 @@ import { Generalroute } from './routes'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <Generalroute/>
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

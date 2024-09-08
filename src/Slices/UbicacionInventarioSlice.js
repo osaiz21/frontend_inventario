@@ -1,10 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { axiosPrivate } from '../axios'
+const axiosP = new axiosPrivate()
+
 
 const UbicacionInventarioSlice = createSlice({
     name: 'ubicacionInventario',
     initialState: {
-      infoUbicacion: {},
-      codigoPlanoSelected: {}
+      infoUbicacion: axiosP.getItem('codigoPlanoSelected') || {},
+      codigoPlanoSelected: axiosP.getItem('codigoPlanoSelected') || {}
     },
     reducers: {
       setCodigoPlano: (state, {payload}) => {

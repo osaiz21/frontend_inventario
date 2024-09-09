@@ -8,7 +8,6 @@ import { DataTableCmp } from "../DataTable/DataTable"
 export const FormEmpleados = () => {
     const { register, formState:{errors}, handleSubmit } = useForm()
     const [ openCollapse, setOpenCollapse] = useState(true)
-    // const { infoUbicacion } = useSelector(state => state.ubicacionInventario)
     const dispatch = useDispatch()
     const onSubmit = async (data) => { 
       try {

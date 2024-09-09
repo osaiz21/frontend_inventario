@@ -216,7 +216,7 @@ const FormularioInventario = () => {
           <div className="col-3">
             <br></br>
             <input
-              className="btn btn-primary btn-block btn-flat"
+              className="btn btn-success btn-block btn-flat"
               type="submit" 
             />
           </div>

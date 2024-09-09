@@ -38,6 +38,9 @@ const FormularioUbicacion = () => {
                   <li className="nav-item">
                     <a className="nav-link " id="activo_fijos-tab" data-toggle="pill" href="#activo_fijos" role="tab" aria-controls="activo_fijos" aria-selected="true">Activo Fijos</a>
                   </li>
+                  <li className="nav-item">
+                    <a className="nav-link " id="activos_registrados-tab" data-toggle="pill" href="#activo_fijos" role="tab" aria-controls="activo_fijos" aria-selected="true">Activos Registrados</a>
+                  </li>
               </ul>
             </div>
             <div className="card-body">
@@ -50,6 +53,10 @@ const FormularioUbicacion = () => {
                   </div>
                   <div className="tab-pane fade" id="activo_fijos" role="tabpanel" aria-labelledby="activo_fijos-tab">
                     <FormularioInventario/>
+                  </div>
+
+                  <div className="tab-pane fade" id="activos_registrados" role="tabpanel" aria-labelledby="activos_registrados-tab">
+                    <p>tbl Aqui va los registros Almacenados del Dia</p>
                   </div>
                   {/* <div className="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
                     <FormularioInventario/> 

@@ -23,8 +23,25 @@ export const getTipoMateriales = (filtro = {}) => {
         )
         $('#material').select2({
             data,
+            tags: true,
             width: '100%'
         })
+        $('#material').on('select2:select', async (e) => {
+            const { id, text }  = e.params.data
+            if ($('#material').find("option[value='" + id + "']").length) {
+                const { data = {} } = await instanceXhr.post(
+                    `v1/createMateriales`,
+                    {
+                        text
+                    }
+                )
+                
+                console.log(data)
+            } else {
+
+            }
+        }) 
+        
         dispatch(setMateriales(data))
     }
 }

@@ -21,9 +21,6 @@ const FormularioInventario = () => {
     material: yup.number()
   }).required();
 
-  const buscarPlano = (e) => {
-  }
-  
   const onSubmit = async (e) => {
     try {
       await dispatch(createInventario() )
@@ -32,8 +29,7 @@ const FormularioInventario = () => {
     }
   }
 
-  const sendForm = async () => {
-  }
+  
 
   const onPreviewFile = (e) => {
     

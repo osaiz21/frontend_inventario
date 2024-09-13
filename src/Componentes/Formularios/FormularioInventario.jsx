@@ -63,6 +63,11 @@ const FormularioInventario = () => {
   },[arrayFiles])
 
   useEffect(() => {
+   
+  },[])
+
+
+  useEffect(() => {
   },[])
 
   return (

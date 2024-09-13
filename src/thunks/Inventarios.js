@@ -24,21 +24,29 @@ export const getTipoMateriales = (filtro = {}) => {
         $('#material').select2({
             data,
             tags: true,
-            width: '100%'
+            width: '100%',
+            tokenSeparators: [",", " "],
+            createTag: function (tag) {
+                return {
+                    id: tag.term,
+                    text: tag.term,
+                    isNew : true
+                };
+            }
         })
+        
         $('#material').on('select2:select', async (e) => {
-            const { id, text }  = e.params.data
-            if ($('#material').find("option[value='" + id + "']").length) {
+            const { id, text, isNew = false } = e.params.data
+            if (isNew) {
                 const { data = {} } = await instanceXhr.post(
                     `v1/createMateriales`,
                     {
                         text
                     }
                 )
-                
-                console.log(data)
-            } else {
-
+                var newOption = new Option(data.text, data.id, false, false)
+                $('#material').append(newOption).trigger('change')
+                toastr.success(`Se creo el Material ${text}`)
             }
         }) 
         

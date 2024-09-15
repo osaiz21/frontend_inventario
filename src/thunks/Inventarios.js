@@ -288,13 +288,13 @@ export const createInventario = (body = {}) => {
             }    
         )
 
-        const { id = 0 } = getState().users.info
+        const { id = 1 } = getState().users.info
         
         const form = {
             ...body,
             "id_auditor": id,
-            "id_ubicacion": axiosp.getItem('ubicacion_inventario_id') || 0,
-            "id_empleado": window['dtg_table_users'].selected[0].id || 0,
+            "id_ubicacion": axiosp.getItem('ubicacion_inventario_id') || 1,
+            "id_empleado": window['dtg_table_users'].selected[0].id || 1,
             "nombre_activo": "",
             "id_material": $("#id_material").select2('val') || 1,
             "id_color": $("#id_color").select2('val') || 1,

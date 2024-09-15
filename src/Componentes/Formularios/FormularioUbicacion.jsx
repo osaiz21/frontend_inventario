@@ -39,7 +39,7 @@ const FormularioUbicacion = () => {
                     <a className="nav-link " id="activo_fijos-tab" data-toggle="pill" href="#activo_fijos" role="tab" aria-controls="activo_fijos" aria-selected="true">Activo Fijos</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link " id="activos_registrados-tab" data-toggle="pill" href="#activo_fijos" role="tab" aria-controls="activo_fijos" aria-selected="true">Activos Registrados</a>
+                    <a className="nav-link " id="activos_registrados-tab" data-toggle="pill" href="#activos_registrados" role="tab" aria-controls="activos_registrados" aria-selected="true">Activos Registrados</a>
                   </li>
               </ul>
             </div>

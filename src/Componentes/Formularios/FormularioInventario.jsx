@@ -18,12 +18,21 @@ const FormularioInventario = () => {
     nombre_activo: yup.string().required(),
     especificacion: yup.string(),
     serie: yup.string(),
-    material: yup.number()
+    id_material: yup.number()
   }).required();
 
   const onSubmit = async (e) => {
     try {
-      await dispatch(createInventario() )
+      let dataForm = $('#form_activo_fijo').serializeArray()
+      let formSend = {}
+      for ( let valForm in dataForm ) {
+        const {name = '0', value = 0 } = dataForm[valForm]
+        formSend[name] = value
+      }
+
+      await dispatch(createInventario(formSend))
+      toastr.success(`Se Registro Correctamente `)
+      setArrayFiles([])
     } catch (error) {
       toastr.error(error.mns || error.stack || error.message || error)
     }
@@ -72,13 +81,14 @@ const FormularioInventario = () => {
 
   return (
     <>
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} id='form_activo_fijo'>
     <div className="row">
       <div className="col-6">
         <label>Placa Nueva</label>
           <input
             className={`form-control ${errors.placa_nueva && 'is-invalid'}`}
             {...register("placa_nueva")}
+            id='placa_nueva'
           />
       </div>
       <div className="col-6">
@@ -86,15 +96,23 @@ const FormularioInventario = () => {
           <input
             className={`form-control ${errors.placa_nueva && 'is-invalid'}`}
             {...register("placa_antigua")}
+            id='placa_antigua'
           />
       </div> 
     </div>
     <div className="row">
-      <div className="col-6">
+      {/* <div className="col-6">
         <label>Nombre Activo</label>
         <input
-          className={`form-control ${errors.placa_nueva && 'is-invalid'}`}
+          className={`form-control ${errors.nombre_activo && 'is-invalid'}`}
           {...register("nombre_activo")}
+        />
+      </div> */}
+      <div className="col-6">
+        <label>Especificaci&oacute;n</label>
+        <input
+          {...register("especificacion")}
+          className ={`form-control ${errors.especificacion && 'is-invalid'}`} 
         />
       </div>
       <div className="col-6">
@@ -111,8 +129,8 @@ const FormularioInventario = () => {
         <select
           {...register('material')}
           className={`form-control ${errors.material && 'is-invalid'}`}
-          id="material"
-          name="material"
+          id="id_material"
+          name="id_material"
         ></select>
       </div>
       <div className="col-6">
@@ -125,11 +143,11 @@ const FormularioInventario = () => {
     </div>
     <div className="row">
       <div className="col-6">
-        <label>Especificaci&oacute;n</label>
-        <input
-          {...register("especificacion")}
-          className ={`form-control ${errors.especificacion && 'is-invalid'}`} 
-        />
+        <label>Modelos</label>
+        <select
+          id="id_modelo"
+          name="id_modelo"
+        ></select>
       </div>
       <div className="col-6">
         <label>Marcas</label>
@@ -140,21 +158,8 @@ const FormularioInventario = () => {
       </div>
     </div>
     <div className="row">
-      <div className="col-6">
-        <label>Modelos</label>
-        <select
-          id="id_modelo"
-          name="id_modelo"
-        ></select>
-      </div>
-      <div className="col-6">
-        <label>Serie</label>
-        <input
-          className ={`form-control ${errors.serie && 'is-invalid'}`} 
-          {...register("serie")} 
-        />
-        {errors.especificacion && <p role="alert">{errors.especificacion?.message}</p>}
-      </div>
+      
+      
     </div>    
     <div className="row">
       <div className="col-6">
@@ -192,7 +197,7 @@ const FormularioInventario = () => {
       <div className="col-6">
         <label>Images</label>
         <input
-          className="form-control"
+          className="form-control "
           type="file"
           multiple
           onChange={onPreviewFile}

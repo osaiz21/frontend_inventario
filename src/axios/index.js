@@ -5,7 +5,9 @@ export const instanceXhr = axios.create({
     baseURL: import.meta.env.VITE_ENDPOINT,
     timeout: 1000000,
     headers: {
-        'X-Custom-Header': 'foobar'
+        'X-Custom-Header': 'foobar',
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'
     }
 })
 
@@ -18,7 +20,9 @@ export class axiosPrivate {
         this.sendxhr =  axios.create({
             baseURL: import.meta.env.VITE_ENDPOINT,
             headers: {
-                'X-Custom-Header': 'foobar'
+                'X-Custom-Header': 'foobar',
+                'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'
             }
         })
         this.setItem = (key = '', value = '') => {
@@ -85,14 +89,16 @@ export class DataTableGeneral {
                     window[`dtg_${this.nameDataTable}`].selected = narray        
                     
                 } else {
+
                     classList.add('selected')
                     window[`dtg_${this.nameDataTable}`].selected = [
-                        ...window[`dtg_${this.nameDataTable}`].selected || [],
+                        // ...window[`dtg_${this.nameDataTable}`].selected || [],
                         {
                             ...window[`dtg_${this.nameDataTable}`].row(e.currentTarget._DT_RowIndex).data(),
                             position : e.currentTarget._DT_RowIndex
                         }
                     ]
+                    localStorage.setItem(`dtg_${this.nameDataTable}`, JSON.stringify(window[`dtg_${this.nameDataTable}`].row(e.currentTarget._DT_RowIndex).data()))
                 }
             } 
         )

@@ -1,5 +1,5 @@
 import { setMateriales } from "../Slices/InventarioSlice"
-import { instanceXhr } from "../axios"
+import { axiosPrivate, instanceXhr } from "../axios"
 
 export const getTipoActivos = (filtro = {}) => {
     return async (dispatch) => {
@@ -9,8 +9,32 @@ export const getTipoActivos = (filtro = {}) => {
         )
         $('#id_activos').select2({
             data,
-            width: '100%'
+            width: '100%',
+            tags: true,
+            tokenSeparators: [",", " "],
+            createTag: function (tag) {
+                return {
+                    id: tag.term,
+                    text: tag.term,
+                    isNew : true
+                }
+            }
         })
+
+        $('#id_activos').on('select2:select', async (e) => {
+            const { id, text, isNew = false } = e.params.data
+            if (isNew) {
+                const { data = {} } = await instanceXhr.post(
+                    `v1/createlsActivo`,
+                    {
+                        text
+                    }
+                )
+                var newOption = new Option(data.text, data.id, true, true)
+                $('#id_activos').append(newOption).trigger('change')
+                toastr.success(`Se creo el Activo ${text}`)
+            }
+        }) 
     }
 }
 
@@ -21,11 +45,11 @@ export const getTipoMateriales = (filtro = {}) => {
             `v1/getlsMateriales`,
             { params: filtro}
         )
-        $('#material').select2({
+        $('#id_material').select2({
             data,
-            tags: true,
             width: '100%',
             tokenSeparators: [",", " "],
+            tags: true,
             createTag: function (tag) {
                 return {
                     id: tag.term,
@@ -35,7 +59,7 @@ export const getTipoMateriales = (filtro = {}) => {
             }
         })
         
-        $('#material').on('select2:select', async (e) => {
+        $('#id_material').on('select2:select', async (e) => {
             const { id, text, isNew = false } = e.params.data
             if (isNew) {
                 const { data = {} } = await instanceXhr.post(
@@ -44,8 +68,8 @@ export const getTipoMateriales = (filtro = {}) => {
                         text
                     }
                 )
-                var newOption = new Option(data.text, data.id, false, false)
-                $('#material').append(newOption).trigger('change')
+                var newOption = new Option(data.text, data.id, true, true)
+                $('#id_material').append(newOption).trigger('change')
                 toastr.success(`Se creo el Material ${text}`)
             }
         }) 
@@ -62,9 +86,32 @@ export const getColores = (filtro = {}) => {
         )
         $('#id_color').select2({
             data,
-            width: '100%'
+            width: '100%',
+            tags: true,
+            tokenSeparators: [",", " "],
+            createTag: function (tag) {
+                return {
+                    id: tag.term,
+                    text: tag.term,
+                    isNew : true
+                }
+            }
         })
-        //dispatch(setMateriales(data))
+
+        $('#id_color').on('select2:select', async (e) => {
+            const { id, text, isNew = false } = e.params.data
+            if (isNew) {
+                const { data = {} } = await instanceXhr.post(
+                    `v1/createlsColores`,
+                    {
+                        text
+                    }
+                )
+                var newOption = new Option(data.text, data.id, true, true)
+                $('#id_color').append(newOption).trigger('change')
+                toastr.success(`Se creo el Color ${text}`)
+            }
+        })
     }
 }
 
@@ -76,9 +123,32 @@ export const getMarcas = (filtro = {}) => {
         )
         $('#id_marca').select2({
             data,
-            width: '100%'
+            width: '100%',
+            tags: true,
+            tokenSeparators: [",", " "],
+            createTag: function (tag) {
+                return {
+                    id: tag.term,
+                    text: tag.term,
+                    isNew : true
+                }
+            }
         })
-        //dispatch(setMateriales(data))
+
+        $('#id_marca').on('select2:select', async (e) => {
+            const { id, text, isNew = false } = e.params.data
+            if (isNew) {
+                const { data = {} } = await instanceXhr.post(
+                    `v1/createlsMarcas`,
+                    {
+                        text
+                    }
+                )
+                var newOption = new Option(data.text, data.id, true, true)
+                $('#id_marca').append(newOption).trigger('change')
+                toastr.success(`Se creo el Marca ${text}`)
+            }
+        }) 
     }
 }
 
@@ -90,9 +160,33 @@ export const getModelos = (filtro = {}) => {
         )
         $('#id_modelo').select2({
             data,
-            width: '100%'
+            width: '100%',
+            tags: true,
+            tokenSeparators: [",", " "],
+            createTag: function (tag) {
+                return {
+                    id: tag.term,
+                    text: tag.term,
+                    isNew : true
+                }
+            }
         })
-        //dispatch(setMateriales(data))
+
+        $('#id_modelo').on('select2:select', async (e) => {
+            const { id, text, isNew = false } = e.params.data
+            if (isNew) {
+                const { data = {} } = await instanceXhr.post(
+                    `v1/createlsModelos`,
+                    {
+                        text,
+                        activo: text
+                    }
+                )
+                var newOption = new Option(data.text, data.id, true, true)
+                $('#id_modelo').append(newOption).trigger('change')
+                toastr.success(`Se creo el Modelo ${text}`)
+            }
+        }) 
     }
 }
 
@@ -104,8 +198,32 @@ export const getEstados = (filtro = {}) => {
         )
         $('#id_estado').select2({
             data,
-            width: '100%'
+            width: '100%',
+            tags: true,
+            tokenSeparators: [",", " "],
+            createTag: function (tag) {
+                return {
+                    id: tag.term,
+                    text: tag.term,
+                    isNew : true
+                }
+            }
         })
+
+        $('#id_estado').on('select2:select', async (e) => {
+            const { id, text, isNew = false } = e.params.data
+            if (isNew) {
+                const { data = {} } = await instanceXhr.post(
+                    `v1/createlsEstado`,
+                    {
+                        text
+                    }
+                )
+                var newOption = new Option(data.text, data.id, true, true)
+                $('#id_estado').append(newOption).trigger('change')
+                toastr.success(`Se creo el Estado ${text}`)
+            }
+        }) 
         //dispatch(setMateriales(data))
     }
 }
@@ -118,8 +236,32 @@ export const getDisponibilidad = (filtro = {}) => {
         )
         $('#id_disponibilidad').select2({
             data,
-            width: '100%'
+            width: '100%',
+            tags: true,
+            tokenSeparators: [",", " "],
+            createTag: function (tag) {
+                return {
+                    id: tag.term,
+                    text: tag.term,
+                    isNew : true
+                }
+            }
         })
+
+        $('#id_disponibilidad').on('select2:select', async (e) => {
+            const { id, text, isNew = false } = e.params.data
+            if (isNew) {
+                const { data = {} } = await instanceXhr.post(
+                    `v1/createlsDisponibilidad`,
+                    {
+                        text
+                    }
+                )
+                var newOption = new Option(data.text, data.id, true, true)
+                $('#id_disponibilidad').append(newOption).trigger('change')
+                toastr.success(`Se creo el Disponibilidad ${text}`)
+            }
+        }) 
         //dispatch(setMateriales(data))
     }
 }
@@ -131,6 +273,7 @@ export const createInventario = (body = {}) => {
         //Cargamos Imagenes
         const fotos = document.getElementById("fotos")
         const formData = new FormData()
+        const axiosp = new axiosPrivate()
         for (let i =0; i < fotos.files.length; i++) {
             formData.append("fotos", fotos.files[i])
         }
@@ -144,43 +287,43 @@ export const createInventario = (body = {}) => {
                 }
             }    
         )
-        const { id = 0 } = getState().users.info    
+
+        const { id = 0 } = getState().users.info
         
         const form = {
+            ...body,
             "id_auditor": id,
-            "id_ubicacion":1,
-            "id_empleado":1,
-            "placa_nueva":"MMW387",
-            "placa_antigua":"MMW386",
-            "id_material":"1",
-            "id_color":1,
-            "especificacion":"Wagon R",
-            "id_marca":1,
-            "id_modelo":1,
-            "serie":"HHHOOII",
-            "cantidad":5,
-            "placapadre":"GGWWOSAIZ",
-            "id_estado":1,
-            "id_disponibilidad":3,
-            "comentario":"Ninguno",
-            "fotos": JSON.stringify(foto),
-            "turnos_dia":"5",
-            "especificacion_tecnica":"Manejo Normal",
-            "horas_uso":"30",
-            "funcion_prestada":"Normal",
-            "id_activos":1,
-            "anio_adquisicion":2019,
-            "periodo_mantenimiento":"2024",
-            "tipo_mantenimiento": 3,
-            "material_procesado":"Acero",
-            "capacidad_productiva":"Acero",
-            "tipo_compra":2,
-            "activo": 1
+            "id_ubicacion": axiosp.getItem('ubicacion_inventario_id') || 0,
+            "id_empleado": window['dtg_table_users'].selected[0].id || 0,
+            "nombre_activo": "",
+            "id_material": $("#id_material").select2('val') || 1,
+            "id_color": $("#id_color").select2('val') || 1,
+            "especificacion":"",
+            "id_marca": $("#id_marca").select2('val') || 1,
+            "id_modelo": $("#id_modelo").select2('val') || 1,
+            "serie":"1",
+            "cantidad":0,
+            "id_estado": $("#id_estado").select2('val') || 1,
+            "id_disponibilidad": $("#id_disponibilidad").select2('val') || 1,
+            "turnos_dia":"1",
+            "especificacion_tecnica":"1",
+            "horas_uso":"1",
+            "funcion_prestada":"1",
+            "id_activos": $("#id_activos").select2('val') || 1,
+            "anio_adquisicion":0,
+            "periodo_mantenimiento":"0",
+            "tipo_mantenimiento": 1,
+            "material_procesado":"",
+            "capacidad_productiva":"",
+            "tipo_compra":1,
+            "fotos": JSON.stringify(foto)
         }
-
+        
         const { data } = await instanceXhr.post(
             `v1/createInventario`,
             form    
         )
+        
+        $('#form_activo_fijo').trigger('reset')
     }
 }

@@ -21,8 +21,9 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const { token } = await dispatch(validateLogin(data))
+      const { token , id } = await dispatch(validateLogin(data))
       window.localStorage.setItem('token',token)
+      window.localStorage.setItem('id_user_login', id)
       // setToken(token)
       navigate( '/wrapper')
       window.location.replace('/wrapper');

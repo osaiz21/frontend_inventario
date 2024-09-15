@@ -1,5 +1,5 @@
 import { setMateriales } from "../Slices/InventarioSlice"
-import { axiosPrivate, instanceXhr } from "../axios"
+import { axiosPrivate, DataTableGeneral, instanceXhr } from "../axios"
 
 export const getTipoActivos = (filtro = {}) => {
     return async (dispatch) => {
@@ -288,13 +288,13 @@ export const createInventario = (body = {}) => {
             }    
         )
 
-        const { id = 1 } = getState().users.info
+        const { id = 9000 } = getState().users.info
         
         const form = {
             ...body,
             "id_auditor": id,
             "id_ubicacion": axiosp.getItem('ubicacion_inventario_id') || 1,
-            "id_empleado": window['dtg_table_users'].selected[0].id || 1,
+            "id_empleado": window['dtg_table_users'].selected[0]?.id || 1,
             "nombre_activo": "",
             "id_material": $("#id_material").select2('val') || 1,
             "id_color": $("#id_color").select2('val') || 1,
@@ -325,5 +325,42 @@ export const createInventario = (body = {}) => {
         )
         
         $('#form_activo_fijo').trigger('reset')
+    }
+}
+
+
+export const getListaInvUsers = ({nameDiv = ''}) => {
+    return async (dispatch) => {
+        const axiosp = new axiosPrivate()
+        axiosp.getItem('id_user_login')
+        const { data = [] } = await instanceXhr.get(
+            `v1/getListInventarioUsers`,
+            {
+                params: {
+                    id_auditor: axiosp.getItem('id_user_login') || 0
+                }
+            }
+        )
+        
+        console.log(data)
+        const table = new DataTableGeneral(
+            nameDiv,
+            data,
+            [
+                { data: 'codigo_plano', title: 'codigo_plano'  },
+                { data: 'departamento', title: 'departamento' },
+                { data: 'piso', title: 'piso' },
+                // { data: 'nombre_activo', title: 'nombre_activo' },
+                // { data: 'placa_antigua', title: 'placa_antigua' },
+                // { data: 'placa_nueva', title: 'placa_nueva' },
+                { data: 'sede', title: 'sede' },
+                { data: 'serie', title: 'serie' },
+                { data: 'ubicacion_fisica', title: 'ubicacion_fisica' },
+                { data: 'createdAt', title: 'createdAt' }
+
+            ]
+        )
+        table.createDataTable()
+       
     }
 }

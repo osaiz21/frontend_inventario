@@ -4,22 +4,13 @@ import { useForm } from 'react-hook-form'
 import { FormEmpleados } from './FormEmpleados'
 import FormularioInventario from './FormularioInventario'
 import UbicacionInventarios from './UbicacionInventarios'
+import { ListInventarioUsuario } from '../Inventario/ListInventarioUsuario'
 
 
 const FormularioUbicacion = () => {
-  const dispatch = useDispatch()
-  const { register, formState:{errors}, handleSubmit } = useForm()
-  
-  
-
-  
   
   useEffect(() => {
   },[])
-
- 
-
-
 
   return (
     <>
@@ -56,7 +47,7 @@ const FormularioUbicacion = () => {
                   </div>
 
                   <div className="tab-pane fade" id="activos_registrados" role="tabpanel" aria-labelledby="activos_registrados-tab">
-                    <p>tbl Aqui va los registros Almacenados del Dia</p>
+                    <ListInventarioUsuario/>
                   </div>
                   {/* <div className="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
                     <FormularioInventario/> 

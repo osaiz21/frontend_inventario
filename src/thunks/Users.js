@@ -1,5 +1,5 @@
 import { setEmpleados, setIdentificacion, setPerfil } from "../Slices/UserSlice"
-import { DataTableGeneral, instanceXhr } from "../axios"
+import { axiosPrivate, DataTableGeneral, instanceXhr } from "../axios"
 
 export const getTipoIdentificacion = (filtro = {}) => {
     return async (dispatch) => {
@@ -55,13 +55,13 @@ export const validateLogin = ( body = {}) => {
 
 export const validateToken = ( token = '') => {
     return async (dispatch) => {
+        const axiosp = new axiosPrivate()
         const { data = {} } = await instanceXhr.post(
-            `v1/validateToken`,
-            {},
+            `v1/validateToken2`,
             {
-                headers: {
-                    token_joro: token
-                }
+                id: axiosp.getItem('id_user_login')
+            },
+            {
             }
         )
         dispatch(setPerfil(data))

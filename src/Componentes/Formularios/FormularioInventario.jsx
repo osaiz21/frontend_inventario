@@ -32,7 +32,7 @@ const FormularioInventario = () => {
 
       await dispatch(createInventario(formSend))
       toastr.success(`Se Registro Correctamente `)
-      setArrayFiles([])
+      dispatch(setFiles([]))
     } catch (error) {
       toastr.error(error.mns || error.stack || error.message || error)
     }
@@ -75,9 +75,6 @@ const FormularioInventario = () => {
    
   },[])
 
-
-  useEffect(() => {
-  },[])
 
   return (
     <>

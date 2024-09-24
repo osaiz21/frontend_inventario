@@ -300,8 +300,6 @@ export const createInventario = (body = {}) => {
             "id_color": $("#id_color").select2('val') || 1,
             "id_marca": $("#id_marca").select2('val') || 1,
             "id_modelo": $("#id_modelo").select2('val') || 1,
-            "serie":"1",
-            "cantidad":0,
             "id_estado": $("#id_estado").select2('val') || 1,
             "id_disponibilidad": $("#id_disponibilidad").select2('val') || 1,
             "turnos_dia":"1",
@@ -340,28 +338,37 @@ export const getListaInvUsers = ({nameDiv = ''}) => {
             }
         )
         const funtionOpenImg = () => {
-            console.log(axiosp.getItem(`dtg_${nameDiv}`))
+            //console.log(axiosp.getItem(`dtg_${nameDiv}`))
         }
 
         const table = new DataTableGeneral(
             nameDiv,
             data,
             [
+                {
+                    className: 'dt-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: ''
+                },
                 { data: 'codigo_plano', title: 'codigo_plano'  },
+                { data: 'placa_nueva', title: 'placa_nueva'  },   
                 { data: 'departamento', title: 'departamento' },
                 { data: 'piso', title: 'piso' },
-                // { data: 'nombre_activo', title: 'nombre_activo' },
-                // { data: 'placa_antigua', title: 'placa_antigua' },
+                { data: 'marcas', title: 'marcas' },
+                { data: 'modelo', title: 'modelo' },
                 { data: 'fotos', title: 'fotos' , visible: false },
                 { data: 'sede', title: 'sede' },
                 { data: 'serie', title: 'serie' },
                 { data: 'ubicacion_fisica', title: 'ubicacion_fisica' },
+                { data: 'cantidad', title: 'cantidad'  },
                 { data: 'createdAt', title: 'createdAt' }
 
             ],
             funtionOpenImg
         )
-        table.createDataTable()
+        table.createDataTable(nameDiv)
+        $(`#${nameDiv}`).DataTable().columns.adjust().draw()
        
     }
 }

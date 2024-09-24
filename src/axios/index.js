@@ -45,28 +45,42 @@ export class axiosPrivate {
 }
 
 export class DataTableGeneral {
-    constructor(name, data, columns, funcion = () => { 
-        console.log('Click')
-    }) {
+    constructor(
+        name, 
+        data,
+        columns, 
+        addfuncion = () => { }
+    ) {
         this.nameDataTable = name;
         this.data = data
         this.columns = columns
         this.selected = []
         this.id = 0
-        this.RowIndexFunction = funcion
+        this.dataTable = null
+        this.urlEndpoint = import.meta.env.VITE_ENDPOINT || ''
+        this.RowIndexFunction = addfuncion
+        this.RowShowExtra = (data) => {
+            return (
+                `<dl>
+                    <dt>Hola</dt>
+                    <dd>Hola - con Descripcion</dd>
+                </dl>`
+            )
+        }
         //window[`dt_${name}`] = name
         // window[`dt_${name}`] = new DataTable(`#${name}`)
     }
-    createDataTable = () => {
-        console.log(this.nameDataTable )
+    createDataTable = (name = '') => {
         // this.addEventListener('click', () => { console.log('oswald')} , false)
         window[`dtg_${this.nameDataTable}`] = {
             ...this,
             ...new DataTable(`#${this.nameDataTable}`, 
                 {
                     processing: true,
+                    searching: false,
                     // serverSide: true,
-                    autoWidth: true,
+                    ScrollXInner: "100%",
+                    autoWidth: false,
                     columns: this.columns,              
                     data: this.data,
                     destroy: true,
@@ -81,10 +95,41 @@ export class DataTableGeneral {
                     select: {
                         style: 'os',
                         selector: 'td:first-child'
+                    },
+                    fnInitComplete: function (oSettings, json) {
+                        //console.log('finish' + this.nameDataTable + name)
+                        // $(`#${name}`).DataTable().columns.adjust().draw()
                     }
                 }
             )
-        } 
+        }
+
+        //Asignar
+
+        this.dataTable = new DataTable(`#${this.nameDataTable}`, 
+            {
+                processing: true,
+                // serverSide: true,
+                autoWidth: false,
+                columns: this.columns,              
+                data: this.data,
+                destroy: true,
+                searching: false,
+                scrollX: true,
+                sScrollXInner: "100%",
+                select: true,
+                rowCallback: ( row, data, displayIndex ) => {
+                    if ( $.inArray(data.id, this.selected) !== -1 ) {
+                        $(row).addClass('selected')
+                    }
+                },
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                }
+            }
+        )
+
         
         window[`dtg_${this.nameDataTable}`].on('click', 'tbody tr',  (e) => {
                 let classList = e.currentTarget.classList
@@ -108,5 +153,46 @@ export class DataTableGeneral {
                 }
             } 
         )
+        // console.log()
+        this.dataTable.on('click', 'td.dt-control',  (e) => {
+            let tr = e.target.closest('tr');
+            let row = this.dataTable.row(tr)
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+            } else {
+                // Open this row
+                row.child(
+                    (( ) => {
+                        const data   = row.data()?.fotos || ''
+                        const images  = JSON.parse(data)
+                        return `
+                            <div class="card card-success">
+                                <div class="card-body">
+                                    <div class="row">
+                                        ${ images.map(({path , originalname}) => (
+                                            `<div class="col-sm-2">
+                                                <div class="card mb-2 bg-gradient-dark">
+                                                    <img class="img-fluid pad" src=${ this.urlEndpoint }/${path} alt="Dist Photo 1">
+                                                    <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                                        <h5 class="card-title text-primary text-white">${originalname}</h5>
+                                                        <p class="card-text text-white pb-2 pt-1"></p>
+                                                    </div>
+                                                </div>
+                                            </div>`
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>`
+                    })()
+                ).show()
+            }
+        })
+
+        // header
+        // 
+        // this.dataTable.columns.adjust().draw()
     }
 }
+
+

@@ -6,7 +6,7 @@ export const DataTableCmp = ({id = 'sin_definir'}) => {
     const dispatch = useDispatch()
 
     useState(() => {
-        dispatch(getUsersCecos(id))
+       
     },[id])
 
     return (

@@ -5,8 +5,13 @@ import { useDispatch } from "react-redux"
 import { createEmpleadosEmpresa } from "../../thunks/EmpleadosEmpresa"
 import { DataTableCmp } from "../DataTable/DataTable"
 
+const nameTableEmpleados = 'table_users'
 export const FormEmpleados = () => {
-    const { register, formState:{errors}, handleSubmit } = useForm()
+    const { register, formState:{errors}, handleSubmit } = useForm({
+      defaultValues: {
+        tipo_identificacion_1: '1'
+      }
+    })
     const [ openCollapse, setOpenCollapse] = useState(true)
     const dispatch = useDispatch()
     const onSubmit = async (data) => { 
@@ -18,13 +23,22 @@ export const FormEmpleados = () => {
       }
     }
     
+    const selectForm = async () => {
+      try {
+        await dispatch(getTipoIdentificacion())
+        await  dispatch(getUsersCecos(nameTableEmpleados))
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
 
     useEffect(() =>{
       
     },[openCollapse])
     
     useEffect(() => {
-      dispatch(getTipoIdentificacion())
+      selectForm()
     },[])
 
     return (
@@ -39,8 +53,8 @@ export const FormEmpleados = () => {
                   <select
                     id="tipo_identificacion_1"
                     name="tipo_identificacion_1"
-                    {...register("tipo_identificacion_1", { required: "Tipo Identificacion" })} 
-                  className={ errors.num_identificacion_1 ? "form-control is-invalid" : "form-control"}
+                    {...register("tipo_identificacion_1")} 
+                  // className={ errors.num_identificacion_1 ? "form-control is-invalid" : "form-control"}
                   ></select>
                 </div>
               </div>
@@ -100,7 +114,7 @@ export const FormEmpleados = () => {
             data-parent="#accordion"
           >
           <div className="card-body">
-            <DataTableCmp id='table_users' />
+            <DataTableCmp id={nameTableEmpleados} />
           </div>
           </div>
         </div>

@@ -298,7 +298,6 @@ export const createInventario = (body = {}) => {
             "nombre_activo": "",
             "id_material": $("#id_material").select2('val') || 1,
             "id_color": $("#id_color").select2('val') || 1,
-            "especificacion":"",
             "id_marca": $("#id_marca").select2('val') || 1,
             "id_modelo": $("#id_modelo").select2('val') || 1,
             "serie":"1",
@@ -332,7 +331,6 @@ export const createInventario = (body = {}) => {
 export const getListaInvUsers = ({nameDiv = ''}) => {
     return async (dispatch) => {
         const axiosp = new axiosPrivate()
-        axiosp.getItem('id_user_login')
         const { data = [] } = await instanceXhr.get(
             `v1/getListInventarioUsers`,
             {
@@ -341,8 +339,10 @@ export const getListaInvUsers = ({nameDiv = ''}) => {
                 }
             }
         )
-        
-        console.log(data)
+        const funtionOpenImg = () => {
+            console.log(axiosp.getItem(`dtg_${nameDiv}`))
+        }
+
         const table = new DataTableGeneral(
             nameDiv,
             data,
@@ -352,13 +352,14 @@ export const getListaInvUsers = ({nameDiv = ''}) => {
                 { data: 'piso', title: 'piso' },
                 // { data: 'nombre_activo', title: 'nombre_activo' },
                 // { data: 'placa_antigua', title: 'placa_antigua' },
-                // { data: 'placa_nueva', title: 'placa_nueva' },
+                { data: 'fotos', title: 'fotos' , visible: false },
                 { data: 'sede', title: 'sede' },
                 { data: 'serie', title: 'serie' },
                 { data: 'ubicacion_fisica', title: 'ubicacion_fisica' },
                 { data: 'createdAt', title: 'createdAt' }
 
-            ]
+            ],
+            funtionOpenImg
         )
         table.createDataTable()
        

@@ -3,27 +3,19 @@ import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
 import { crearUbicacionPlano, getUbicacionPlano } from "../../thunks/Ubicaciones"
 import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
+import { setDataFormUbicacionInventario } from "../../Slices/UbicacionInventarioSlice"
 
  const UbicacionInventarios = () => {
   const dispatch = useDispatch()
-  const [formUbicacion, setformUbicacion] = useState({
-    id: "",
-    "codigo_plano": "" ,
-    "pais":"",          
-    "ciudad":"",        
-    "sede": "",
-    "departamento":"",
-    "ubicacion_fisica":"",
-    "piso":""  
-  })
-  const { infoUbicacion, codigoPlanoSelected } = useSelector(state => state.ubicacionInventario)
+
+  const { infoUbicacion, codigoPlanoSelected , form_ubicacion_inventarios } = useSelector(state => state.ubicacionInventario)
   const sendForm = async () => {
     try {
 
       await dispatch(crearUbicacionPlano({
-        ...formUbicacion
+        ...form_ubicacion_inventarios
       }))
-      toastr.success(`Se creo Plano Correctamente (${formUbicacion.codigo_plano})`)
+      toastr.success(`Se creo Plano Correctamente (${form_ubicacion_inventarios?.codigo_plano})`)
     } catch (error) {
       const { mns = 'Error no Identificado'} = error.response.data 
       toastr.error(mns )
@@ -34,58 +26,48 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
     try {
 
       await dispatch(getUbicacionPlano({ 
-        codigo_plano : formUbicacion.codigo_plano
+        codigo_plano : form_ubicacion_inventarios.codigo_plano
       }))
-      
-    } catch (error) {
+      await dispatch(getAllPaises())
+      await dispatch(getAllCiudades())
+      await dispatch(getAllPisos())
 
+    } catch (error) {
+      toastr.error(error)
     }
   }
 
   useEffect(() => {
-  },[formUbicacion])
-
-  useEffect(() => {
-    // get Paises.
-    dispatch(getAllPaises())
-    dispatch(getAllCiudades())
-    dispatch(getAllPisos())
-
-  },[])
-
-  useEffect(() => {
     // Eventos
-    $('#pais').on('select2:select', (e) => {
-      const { id } = e.params.data;
-      console.log('pais', id)
-      setformUbicacion(state => ({
-        ...state,
-        pais: id
-      }))
-    })
     
-    $('#ciudad').on('select2:select',  (e) => {
-      const { id } = e.params.data;
-      
-      setformUbicacion(state => ({
-        ...state,
-        ciudad: id
-      }))
-    })
-
-    $('#pisos').on('select2:select',  (e) => {
-      const { id } = e.params.data;
-      setformUbicacion(state => ({
-        ...state,
-        piso: id
-      }))
-    })
 
   },[])
+ 
+  const createFormSelect = async () => {
+    try {
+      // get Paises.
+      await dispatch(getAllPaises())
+      await dispatch(getAllCiudades())
+      await dispatch(getAllPisos())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    
+
+  },[])
+
+  
 
   useEffect(() => {
     
   }, [codigoPlanoSelected])
+
+  useEffect(() => {
+    createFormSelect()
+  },[])
 
   return (
       <>
@@ -98,14 +80,12 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
                       className="form-control" 
                       placeholder="Plano" 
                       name='codigo_plano'
-                      value={formUbicacion.codigo_plano.toUpperCase()}
+                      value={form_ubicacion_inventarios.codigo_plano}
                       onChange={(e)=> {
-                        setformUbicacion( state => ({
-                            ...state,
-                            [e.target.name] : e.target.value
-                          })
-                        )}
-                      }
+                        dispatch(setDataFormUbicacionInventario({
+                          [e.target.name] : e.target.value.toUpperCase()
+                        }))
+                      }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           buscarPlano(
@@ -172,12 +152,11 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
                           className="form-control" 
                           name='departamento'
                           placeholder="Departamento"
+                          value={form_ubicacion_inventarios.departamento}
                           onChange={(e)=> {
-                            setformUbicacion( { 
-                                ...formUbicacion,
-                                [e.target.name] : e.target.value
-                              }
-                            )
+                            dispatch(setDataFormUbicacionInventario({
+                              [e.target.name] : e.target.value.toUpperCase()
+                            }))
                           }}
                         />
                         </div>
@@ -192,15 +171,14 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
                           type="text" 
                           className="form-control" 
                           name='ubicacion_fisica'
+                          value={form_ubicacion_inventarios.ubicacion_fisica}
                           placeholder="Ubicacion Fisica"
                           onChange={(e)=> {
-                            setformUbicacion( { 
-                                ...formUbicacion,
-                                [e.target.name] : e.target.value
-                              }
-                            )
+                            dispatch(setDataFormUbicacionInventario({
+                              [e.target.name] : e.target.value.toUpperCase()
+                            }))
                           }}
-                        />
+                        /> 
                         </div>
                     </div>
                     <div className="col-6">
@@ -211,12 +189,11 @@ import { getAllCiudades, getAllPaises, getAllPisos } from "../../thunks/Paises"
                           className="form-control" 
                           placeholder="Sede" 
                           name='sede'
+                          value={form_ubicacion_inventarios.sede}
                           onChange={(e)=> {
-                            setformUbicacion( { 
-                                ...formUbicacion,
-                                [e.target.name] : e.target.value
-                              }
-                            )
+                            dispatch(setDataFormUbicacionInventario({
+                              [e.target.name] : e.target.value.toUpperCase()
+                            }))
                           }}
                         />
                       </div>

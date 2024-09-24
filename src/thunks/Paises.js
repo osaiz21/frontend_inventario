@@ -1,4 +1,5 @@
-import { setPais } from "../Slices/PaisSlice"
+// import { setPais } from "../Slices/PaisSlice"
+import { setDataFormUbicacionInventario } from "../Slices/UbicacionInventarioSlice"
 import { instanceXhr } from "../axios"
 
 export const getAllPaises = (filtro = {}) => {
@@ -11,7 +12,14 @@ export const getAllPaises = (filtro = {}) => {
             data,
             width: '100%'
         })
-        dispatch( setPais(data) )
+
+        $('#pais').on('select2:select', (e) => {
+            const { id } = e.params.data;
+            console.log('pais', id)
+            dispatch(setDataFormUbicacionInventario({
+              pais: id
+            }))
+        })
     }
 }
 
@@ -25,7 +33,12 @@ export const getAllCiudades = (filtro = {}) => {
             data,
             width: '100%'
         })
-        dispatch( setPais(data) )
+        $('#ciudad').on('select2:select',  (e) => {
+            const { id } = e.params.data;
+            dispatch(setDataFormUbicacionInventario({
+              ciudad: id
+            }))
+        })
     }
 }
 
@@ -39,6 +52,14 @@ export const getAllPisos = (filtro = {}) => {
             data,
             width: '100%'
         })
-        dispatch( setPais(data) )
+        // dispatch( setPais(data) )
+
+        $('#pisos').on('select2:select',  (e) => {
+            const { id } = e.params.data
+            dispatch(setDataFormUbicacionInventario({
+              piso: id
+            }))
+        })
+        
     }
 }

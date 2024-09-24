@@ -109,18 +109,18 @@ const FormularioInventario = () => {
         />
       </div> */}
       <div className="col-6">
+      <label>Lista Activos</label>
+        <select
+          id="id_activos"
+          name="id_activos"
+        ></select>
+      </div>
+      <div className="col-6">
         <label>Especificaci&oacute;n</label>
         <input
           {...register("especificacion")}
           className ={`form-control ${errors.especificacion && 'is-invalid'}`} 
         />
-      </div>
-      <div className="col-6">
-        <label>Lista Activos</label>
-        <select
-          id="id_activos"
-          name="id_activos"
-        ></select>
       </div>
     </div>
     <div className="row">
@@ -206,7 +206,14 @@ const FormularioInventario = () => {
           aria-invalid={errors.especificacion ? "true" : "false"} 
         />
       </div>
+      <div className="col-6">
+        <label>Serie</label>
+        <input
+          className={`form-control ${errors.nombre_activo && 'is-invalid'}`}
+          {...register("serie")}
+        />
       </div>
+    </div>
       <div className="row">
         <div className="col-12">
           <label>Comentario</label>
@@ -217,20 +224,21 @@ const FormularioInventario = () => {
         </div>
       </div>
       <div className="row">
+        <div className="col-3">
+          <br></br>
+          <input
+            className="btn btn-success btn-block btn-flat"
+            type="submit" 
+          />
+        </div>
       </div> 
-      <div className="row">
-          <div className="col-3">
-            <br></br>
-            <input
-              className="btn btn-success btn-block btn-flat"
-              type="submit" 
-            />
-          </div>
+      </form>
+        <div className="row">
           <div className="col-3">
             <br></br>
             <button
               className="btn btn-primary btn-block btn-flat"
-            >Crear Area</button>
+            >Valor Anterior</button>
           </div>
           <div className="col-3">
             <br></br>
@@ -252,7 +260,7 @@ const FormularioInventario = () => {
           </div>
       </div>
       <ViewFiles/>
-      </form>
+      
     </>
   )
 }

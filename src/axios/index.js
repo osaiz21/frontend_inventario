@@ -45,16 +45,20 @@ export class axiosPrivate {
 }
 
 export class DataTableGeneral {
-    constructor(name, data, columns) {
+    constructor(name, data, columns, funcion = () => { 
+        console.log('Click')
+    }) {
         this.nameDataTable = name;
         this.data = data
         this.columns = columns
         this.selected = []
         this.id = 0
+        this.RowIndexFunction = funcion
         //window[`dt_${name}`] = name
         // window[`dt_${name}`] = new DataTable(`#${name}`)
     }
     createDataTable = () => {
+        console.log(this.nameDataTable )
         // this.addEventListener('click', () => { console.log('oswald')} , false)
         window[`dtg_${this.nameDataTable}`] = {
             ...this,
@@ -62,11 +66,12 @@ export class DataTableGeneral {
                 {
                     processing: true,
                     // serverSide: true,
-                    autoWidth: false,
+                    autoWidth: true,
                     columns: this.columns,              
                     data: this.data,
                     destroy: true,
                     searching: false,
+                    scrollX: true,
                     select: true,
                     rowCallback: ( row, data, displayIndex ) => {
                         if ( $.inArray(data.id, this.selected) !== -1 ) {
@@ -89,7 +94,7 @@ export class DataTableGeneral {
                     window[`dtg_${this.nameDataTable}`].selected = narray        
                     
                 } else {
-
+                    
                     classList.add('selected')
                     window[`dtg_${this.nameDataTable}`].selected = [
                         // ...window[`dtg_${this.nameDataTable}`].selected || [],
@@ -98,6 +103,7 @@ export class DataTableGeneral {
                             position : e.currentTarget._DT_RowIndex
                         }
                     ]
+                    this.RowIndexFunction()
                     localStorage.setItem(`dtg_${this.nameDataTable}`, JSON.stringify(window[`dtg_${this.nameDataTable}`].row(e.currentTarget._DT_RowIndex).data()))
                 }
             } 

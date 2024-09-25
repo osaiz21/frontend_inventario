@@ -87,6 +87,11 @@ export class DataTableGeneral {
                     searching: false,
                     scrollX: true,
                     select: true,
+                    layout: {
+                        topStart: {
+                            buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+                        }
+                    },
                     rowCallback: ( row, data, displayIndex ) => {
                         if ( $.inArray(data.id, this.selected) !== -1 ) {
                             $(row).addClass('selected');
@@ -118,6 +123,9 @@ export class DataTableGeneral {
                 scrollX: true,
                 sScrollXInner: "100%",
                 select: true,
+                responsive: true, 
+                lengthChange: false, 
+                autoWidth: false,
                 rowCallback: ( row, data, displayIndex ) => {
                     if ( $.inArray(data.id, this.selected) !== -1 ) {
                         $(row).addClass('selected')

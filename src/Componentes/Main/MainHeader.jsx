@@ -6,6 +6,11 @@ const MainHeader = () => {
   const { nombres = '', apellidos = '' } = useSelector(state => state.users.info)
   const { codigoPlanoSelected } = useSelector(state => state.ubicacionInventario)
   const [name] = useState(`${nombres} ${apellidos}`)
+
+  const clearStorage = () => {
+    window.localStorage.clear()
+    window.location.reload()
+  }
   useEffect(() => {
 
   }, [name])
@@ -48,7 +53,7 @@ const MainHeader = () => {
           </div>
         </li>
 
-        <li className="nav-item dropdown">
+        {/* <li className="nav-item dropdown">
           <a className="nav-link" data-toggle="dropdown" href="#">
             <i className="far fa-comments"></i>
             <span className="badge badge-danger navbar-badge">3</span>
@@ -104,9 +109,9 @@ const MainHeader = () => {
             <div className="dropdown-divider"></div>
             <a href="#" className="dropdown-item dropdown-footer">See All Messages</a>
           </div>
-        </li>
+        </li> */}
 
-        <li className="nav-item dropdown">
+        {/* <li className="nav-item dropdown">
           <a className="nav-link" data-toggle="dropdown" href="#">
             <i className="far fa-bell"></i>
             <span className="badge badge-warning navbar-badge">15</span>
@@ -131,7 +136,8 @@ const MainHeader = () => {
             <div className="dropdown-divider"></div>
             <a href="#" className="dropdown-item dropdown-footer">See All Notifications</a>
           </div>
-        </li>
+        </li> */}
+        <button className="btn btn-primary btn-block btn-flat" onClick={() => { clearStorage()}}>Cerrar</button>
         <li className="nav-item">
           <a className="nav-link" data-widget="fullscreen" href="#" role="button">
             <i className="fas fa-expand-arrows-alt"></i>

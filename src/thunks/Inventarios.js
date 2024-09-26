@@ -328,13 +328,18 @@ export const createInventario = (body = {}) => {
 
 
 export const getListaInvUsers = ({nameDiv = ''}) => {
-    return async (dispatch) => {
+    return async ( dispatch, getState) => {
+       
+
         const axiosp = new axiosPrivate()
+        // 1 -> Administrador
+        const { rol  } = axiosp.getItem('info_auditor') || {}
+        console.log(axiosp.getItem('info_auditor') , rol ,rol === '1')
         const { data = [] } = await instanceXhr.get(
             `v1/getListInventarioUsers`,
             {
                 params: {
-                    id_auditor: axiosp.getItem('id_user_login') || 0
+                    id_auditor: rol === '1' ? undefined : axiosp.getItem('id_user_login') 
                 }
             }
         )
@@ -363,11 +368,11 @@ export const getListaInvUsers = ({nameDiv = ''}) => {
                 { data: 'cantidad', title: 'cantidad'  },
                 { data: 'createdAt', title: 'createdAt' },
                 { data: "action", render:   (data, type, row) => {
-                    //return '<input id="btnViewConcepts" class="btn-link lnk" onclick="View(\'' + row.TestId + '\',\'' + row.TestKey + '\');" style="width:100px"  value="View Concept"/> | <a href="QuestionPaper.aspx?TestId=' + row.TestId + '&Mode=Offline" target="_blank" class="btn-link">View Question Paper</a>'
+                    //return '<button type="button" class="btn btn-primary btn-block">Actualizar</button> <input id="btnViewConcepts" class="btn-link lnk" onclick="View(\'' + row.TestId + '\',\'' + row.TestKey + '\');" style="width:100px"  value="View Concept"/> | <a href="QuestionPaper.aspx?TestId=' + row.TestId + '&Mode=Offline" target="_blank" class="btn-link">View Question Paper</a>'
                     return `<button type="button" class="btn btn-danger btn-block" onclick="( (e) => {
                             deleteRowInv(e)
                         })(${row.id})">Eliminar</button>
-                        <button type="button" class="btn btn-primary btn-block">Actualizar</button>`
+                        `
                   }
                 }
 

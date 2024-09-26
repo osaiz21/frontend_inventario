@@ -64,6 +64,7 @@ export const validateToken = ( token = '') => {
             {
             }
         )
+        axiosp.setItem('info_auditor', data)
         dispatch(setPerfil(data))
     }
 }

@@ -168,7 +168,7 @@ export class DataTableGeneral {
                                         ${ images.map(({path , originalname}) => (
                                             `<div class="col-sm-2">
                                                 <div class="card mb-2 bg-gradient-dark">
-                                                    <img class="img-fluid pad" src=${ this.urlEndpoint }/${path} alt="Dist Photo 1">
+                                                    <img class="img-thumbnail" src=${ this.urlEndpoint }/${path} alt=${originalname}>
                                                     <div class="card-img-overlay d-flex flex-column justify-content-end">
                                                         <h5 class="card-title text-primary text-white">${originalname}</h5>
                                                         <p class="card-text text-white pb-2 pt-1"></p>

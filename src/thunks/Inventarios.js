@@ -270,10 +270,23 @@ export const getDisponibilidad = (filtro = {}) => {
 
 export const createInventario = (body = {}) => {
     return async (dispatch, getState) => {
+        // valida si existe placa
+        const { placa_nueva = 0 } = body
+        const { data:dataPlacaNueva = {} } = await instanceXhr.get(
+            `v1/getInventario`,
+            { params: {
+                placa_nueva
+            }}
+        )
+        if (Object.keys(dataPlacaNueva).length > 0) {
+            throw new Error(`Placa ya existen ${placa_nueva}`)
+        }
         //Cargamos Imagenes
         const fotos = document.getElementById("fotos")
         const formData = new FormData()
         const axiosp = new axiosPrivate()
+        
+
         for (let i =0; i < fotos.files.length; i++) {
             formData.append("fotos", fotos.files[i])
         }
@@ -356,13 +369,13 @@ export const getListaInvUsers = ({nameDiv = ''}) => {
                     defaultContent: ''
                 },
                 { data: 'codigo_plano', title: 'codigo_plano'  },
+                { data: 'activo', title: 'activo' },
                 { data: 'placa_nueva', title: 'placa_nueva'  },   
                 { data: 'departamento', title: 'departamento' },
                 { data: 'piso', title: 'piso' },
                 { data: 'marcas', title: 'marcas' },
                 { data: 'modelo', title: 'modelo' },
                 { data: 'fotos', title: 'fotos' , visible: false },
-                { data: 'sede', title: 'sede' },
                 { data: 'serie', title: 'serie' },
                 { data: 'ubicacion_fisica', title: 'ubicacion_fisica' },
                 { data: 'cantidad', title: 'cantidad'  },
@@ -382,5 +395,34 @@ export const getListaInvUsers = ({nameDiv = ''}) => {
         table.createDataTable(nameDiv)
         $(`#${nameDiv}`).DataTable().columns.adjust().draw()
        
+    }
+}
+
+export const getInventRegister = (filtro = {}) => {
+    return async (dispatch) => {
+        const { data = {} } = await instanceXhr.get(
+            `v1/getInventario`,
+            { params: filtro}
+        )
+        if(Object.keys(data).length == 0) {
+            throw new Error('No se encontro valor')
+        }
+
+        for (const key in Object.keys(data)) {
+            // console.log(key,data)
+            var e = document.getElementById(`${Object.keys(data)[key]}`)
+            if (e instanceof HTMLInputElement) {
+                $(`#${Object.keys(data)[key]}`).val( data[Object.keys(data)[key]] )
+            } else if (e instanceof HTMLSelectElement) {
+                $(`#${Object.keys(data)[key]}`).select2('val',`${data[Object.keys(data)[key]]}`) 
+            } else if (e instanceof HTMLTextAreaElement) {
+                // console.log(3)
+            } else if (Object.keys(data)[key] === 'fotos') {
+                // console.log()
+            }
+            //$(`#${Object.keys(data)[key]}`).val(data[Object.keys(data)[key]])
+        }
+
+
     }
 }

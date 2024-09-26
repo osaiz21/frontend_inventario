@@ -2,7 +2,7 @@ import { useEffect, useState  } from 'react'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import * as yup from "yup";
-import { createInventario, getColores, getDisponibilidad, getEstados, getMarcas, getModelos, getTipoActivos, getTipoMateriales } from '../../thunks/Inventarios'
+import { createInventario, getColores, getDisponibilidad, getEstados, getInventRegister, getMarcas, getModelos, getTipoActivos, getTipoMateriales } from '../../thunks/Inventarios'
 import { ViewFiles } from '../Files/ViewFiles'
 import { setFiles } from '../../Slices/FilesSlice'
 
@@ -34,7 +34,7 @@ const FormularioInventario = () => {
       toastr.success(`Se Registro Correctamente `)
       dispatch(setFiles([]))
     } catch (error) {
-      toastr.error(error.mns || error.stack || error.message || error)
+      toastr.error(error.message || error.mns || error.stack  || error)
     }
   }
 
@@ -55,6 +55,14 @@ const FormularioInventario = () => {
     }
   }
   
+  const searchInventRegister = async ( params = {}) => {
+    try {
+      await dispatch(getInventRegister(params))
+      
+    } catch (error) {
+      toastr.warning(error)
+    }
+  }
   useEffect(() => {
     dispatch(getTipoActivos())
     dispatch(getTipoMateriales())
@@ -80,13 +88,26 @@ const FormularioInventario = () => {
     <>
     <form onSubmit={handleSubmit(onSubmit)} id='form_activo_fijo'>
     <div className="row">
-      <div className="col-6">
+      <div className="col-6 ">
         <label>Placa Nueva</label>
+        <div className='input-group'>
           <input
             className={`form-control ${errors.placa_nueva && 'is-invalid'}`}
             {...register("placa_nueva")}
             id='placa_nueva'
+            placeholder='Placa Nueva'
           />
+          <div className="input-group-append">
+            <button 
+              className="btn btn-outline-secondary btn-sm" 
+              type="button"
+              onClick={() =>  { searchInventRegister({
+                placa_nueva: $('#placa_nueva').val()
+              })}}
+            >Buscar</button>
+          </div>
+        </div>
+
       </div>
       <div className="col-6">
           <label>Placa Antigua</label>
@@ -164,6 +185,7 @@ const FormularioInventario = () => {
         <input
           className ={`form-control ${errors.especificacion && 'is-invalid'}`} 
           {...register("cantidad")}
+          id='cantidad'
         />
       </div>
       <div className="col-6">
@@ -171,6 +193,7 @@ const FormularioInventario = () => {
         <input
           className ={`form-control ${errors.placapadre && 'is-invalid'}`} 
           {...register("placapadre")} 
+          id='placapadre'
         />
       </div>
     </div>
@@ -206,8 +229,9 @@ const FormularioInventario = () => {
       <div className="col-6">
         <label>Serie</label>
         <input
-          className={`form-control ${errors.nombre_activo && 'is-invalid'}`}
+          className={`form-control ${errors.serie && 'is-invalid'}`}
           {...register("serie")}
+          id='serie'
         />
       </div>
     </div>
@@ -217,6 +241,7 @@ const FormularioInventario = () => {
           <input
             className ={`form-control ${errors.especificacion && 'is-invalid'}`} 
             {...register("comentario")}
+            id='comentario'
           />
         </div>
       </div>

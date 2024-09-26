@@ -326,6 +326,7 @@ export const createInventario = (body = {}) => {
 }
 
 
+
 export const getListaInvUsers = ({nameDiv = ''}) => {
     return async (dispatch) => {
         const axiosp = new axiosPrivate()
@@ -337,9 +338,7 @@ export const getListaInvUsers = ({nameDiv = ''}) => {
                 }
             }
         )
-        const funtionOpenImg = () => {
-            //console.log(axiosp.getItem(`dtg_${nameDiv}`))
-        }
+        
 
         const table = new DataTableGeneral(
             nameDiv,
@@ -363,17 +362,17 @@ export const getListaInvUsers = ({nameDiv = ''}) => {
                 { data: 'ubicacion_fisica', title: 'ubicacion_fisica' },
                 { data: 'cantidad', title: 'cantidad'  },
                 { data: 'createdAt', title: 'createdAt' },
-                { data: "action", render: function (data, type, row) {
+                { data: "action", render:   (data, type, row) => {
                     //return '<input id="btnViewConcepts" class="btn-link lnk" onclick="View(\'' + row.TestId + '\',\'' + row.TestKey + '\');" style="width:100px"  value="View Concept"/> | <a href="QuestionPaper.aspx?TestId=' + row.TestId + '&Mode=Offline" target="_blank" class="btn-link">View Question Paper</a>'
-                    return `<button type="button" class="btn btn-danger btn-block" onclick="((e) => {
-                            console.log(e)
-                        })()">Eliminar</button>
+                    return `<button type="button" class="btn btn-danger btn-block" onclick="( (e) => {
+                            deleteRowInv(e)
+                        })(${row.id})">Eliminar</button>
                         <button type="button" class="btn btn-primary btn-block">Actualizar</button>`
                   }
                 }
 
             ],
-            funtionOpenImg
+            
         )
         table.createDataTable(nameDiv)
         $(`#${nameDiv}`).DataTable().columns.adjust().draw()

@@ -40,7 +40,7 @@ export class axiosPrivate {
             let value =  JSON.parse(window.localStorage.getItem(key))
             return value['key'] || ''
         }
-
+        window['axiosp'] = this
     }
 }
 
@@ -59,14 +59,7 @@ export class DataTableGeneral {
         this.dataTable = null
         this.urlEndpoint = import.meta.env.VITE_ENDPOINT || ''
         this.RowIndexFunction = addfuncion
-        this.RowShowExtra = (data) => {
-            return (
-                `<dl>
-                    <dt>Hola</dt>
-                    <dd>Hola - con Descripcion</dd>
-                </dl>`
-            )
-        }
+       
         //window[`dt_${name}`] = name
         // window[`dt_${name}`] = new DataTable(`#${name}`)
     }
@@ -84,14 +77,8 @@ export class DataTableGeneral {
                     columns: this.columns,              
                     data: this.data,
                     destroy: true,
-                    searching: false,
                     scrollX: true,
                     select: true,
-                    layout: {
-                        topStart: {
-                            buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
-                        }
-                    },
                     rowCallback: ( row, data, displayIndex ) => {
                         if ( $.inArray(data.id, this.selected) !== -1 ) {
                             $(row).addClass('selected');

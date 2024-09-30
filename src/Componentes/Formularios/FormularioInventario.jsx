@@ -38,7 +38,13 @@ const FormularioInventario = () => {
     }
   }
 
-  
+  const fnUpdateInventario = async (e) => {
+    try {
+      console.log('Actualizar')
+    } catch (error) {
+      console.error('Actualizar')
+    }
+  }
 
   const onPreviewFile = (e) => {
     
@@ -111,11 +117,22 @@ const FormularioInventario = () => {
       </div>
       <div className="col-6">
           <label>Placa Antigua</label>
-          <input
-            className={`form-control ${errors.placa_nueva && 'is-invalid'}`}
-            {...register("placa_antigua")}
-            id='placa_antigua'
-          />
+          <div className='input-group'>
+            <input
+              className={`form-control ${errors.placa_antigua && 'is-invalid'}`}
+              {...register("placa_antigua")}
+              id='placa_antigua'
+            />
+            <div className="input-group-append">
+              <button 
+                className="btn btn-outline-secondary btn-sm" 
+                type="button"
+                onClick={() =>  { searchInventRegister({
+                  placa_antigua: $('#placa_antigua').val()
+                })}}
+              >Buscar</button>
+            </div>
+          </div>
       </div> 
     </div>
     <div className="row">
@@ -186,6 +203,7 @@ const FormularioInventario = () => {
           className ={`form-control ${errors.especificacion && 'is-invalid'}`} 
           {...register("cantidad")}
           id='cantidad'
+          type='number'
         />
       </div>
       <div className="col-6">
@@ -250,9 +268,22 @@ const FormularioInventario = () => {
           <br></br>
           <input
             className="btn btn-success btn-block btn-flat"
-            type="submit" 
+            type="submit"
+            value='Guardar'
           />
         </div>
+      
+      {/* <div className="col-3">
+        <br></br>
+        <input
+          className="btn btn-warning btn-block btn-flat"
+          type="button"
+          value='Actualizar'
+          onClick={() => {
+            fnUpdateInventario()
+          }}
+        />
+      </div> */}
       </div> 
       </form>
         <div className="row">

@@ -272,14 +272,17 @@ export const createInventario = (body = {}) => {
     return async (dispatch, getState) => {
         // valida si existe placa
         const { placa_nueva = 0 } = body
-        const { data:dataPlacaNueva = {} } = await instanceXhr.get(
-            `v1/getInventario`,
-            { params: {
-                placa_nueva
-            }}
-        )
-        if (Object.keys(dataPlacaNueva).length > 0) {
-            throw new Error(`Placa ya existen ${placa_nueva}`)
+        if ( (!!placa_nueva) ) {
+            const { data:dataPlacaNueva = {} } = await instanceXhr.get(
+                `v1/getInventario`,
+                { params: {
+                    placa_nueva
+                }}
+            )
+
+            if (Object.keys(dataPlacaNueva).length > 0) {
+                throw new Error(`Placa ya existen ${placa_nueva}`)
+            }
         }
         //Cargamos Imagenes
         const fotos = document.getElementById("fotos")

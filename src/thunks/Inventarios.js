@@ -343,19 +343,19 @@ export const createInventario = (body = {}) => {
 
 
 
-export const getListaInvUsers = ({nameDiv = ''}) => {
+export const getListaInvUsers = ({nameDiv = '', createdAt = ''}) => {
     return async ( dispatch, getState) => {
        
-
+        console.log(createdAt)
         const axiosp = new axiosPrivate()
         // 1 -> Administrador
         const { rol  } = axiosp.getItem('info_auditor') || {}
-        console.log(axiosp.getItem('info_auditor') , rol ,rol === '1')
         const { data = [] } = await instanceXhr.get(
             `v1/getListInventarioUsers`,
             {
                 params: {
-                    id_auditor: rol === '1' ? undefined : axiosp.getItem('id_user_login') 
+                    id_auditor: rol === '1' ? undefined : axiosp.getItem('id_user_login'),
+                    createdAt
                 }
             }
         )

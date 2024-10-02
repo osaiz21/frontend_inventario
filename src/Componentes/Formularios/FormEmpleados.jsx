@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux"
 import { createEmpleadosEmpresa } from "../../thunks/EmpleadosEmpresa"
 import { DataTableCmp } from "../DataTable/DataTable"
 
-const nameTableEmpleados = 'table_users'
+const nameTableEmpleados = 'dtg_table_users'
 export const FormEmpleados = () => {
     const { register, formState:{errors}, handleSubmit } = useForm({
       defaultValues: {

@@ -65,93 +65,93 @@ export class DataTableGeneral {
     }
     createDataTable = (name = '') => {
         // this.addEventListener('click', () => { console.log('oswald')} , false)
-        window[`dtg_${this.nameDataTable}`] = {
-            ...this,
-            ...new DataTable(`#${this.nameDataTable}`, 
-                {
-                    processing: true,
-                    searching: false,
-                    // serverSide: true,
-                    ScrollXInner: "100%",
-                    autoWidth: false,
-                    columns: this.columns,              
-                    data: this.data,
-                    destroy: true,
-                    scrollX: true,
-                    select: true,
-                    rowCallback: ( row, data, displayIndex ) => {
-                        if ( $.inArray(data.id, this.selected) !== -1 ) {
-                            $(row).addClass('selected');
-                        }
-                    },
-                    select: {
-                        style: 'os',
-                        selector: 'td:first-child'
-                    },
-                    fnInitComplete: function (oSettings, json) {
-                        //console.log('finish' + this.nameDataTable + name)
-                        // $(`#${name}`).DataTable().columns.adjust().draw()
-                    }
-                }
-            )
-        }
-
-        //Asignar
-
-        this.dataTable = new DataTable(`#${this.nameDataTable}`, 
+        console.log(name, this.nameDataTable)
+        window[`${this.nameDataTable}`] = new DataTable(`#${this.nameDataTable}`, 
             {
                 processing: true,
+                searching: false,
                 // serverSide: true,
+                ScrollXInner: "100%",
                 autoWidth: false,
                 columns: this.columns,              
                 data: this.data,
                 destroy: true,
-                searching: false,
                 scrollX: true,
-                sScrollXInner: "100%",
                 select: true,
-                responsive: true, 
-                lengthChange: false, 
-                autoWidth: false,
                 rowCallback: ( row, data, displayIndex ) => {
                     if ( $.inArray(data.id, this.selected) !== -1 ) {
-                        $(row).addClass('selected')
+                        $(row).addClass('selected');
                     }
                 },
                 select: {
                     style: 'os',
                     selector: 'td:first-child'
+                },
+                fnInitComplete: function (oSettings, json) {
+                    //console.log('finish' + this.nameDataTable + name)
+                    // $(`#${name}`).DataTable().columns.adjust().draw()
                 }
             }
         )
+       
+
+        //Asignar
+        // console.log(this.dataTable)
+        // this.dataTable = new DataTable(`#${this.nameDataTable}`, 
+        //     {
+        //         processing: true,
+        //         // serverSide: true,
+        //         autoWidth: false,
+        //         columns: this.columns,              
+        //         data: this.data,
+        //         destroy: true,
+        //         searching: false,
+        //         scrollX: true,
+        //         sScrollXInner: "100%",
+        //         select: true,
+        //         responsive: true, 
+        //         lengthChange: false, 
+        //         autoWidth: false,
+        //         rowCallback: ( row, data, displayIndex ) => {
+        //             if ( $.inArray(data.id, this.selected) !== -1 ) {
+        //                 $(row).addClass('selected')
+        //             }
+        //         },
+        //         select: {
+        //             style: 'os',
+        //             selector: 'td:first-child'
+        //         }
+        //     }
+        // )
 
         
-        window[`dtg_${this.nameDataTable}`].on('click', 'tbody tr',  (e) => {
+        window[`${this.nameDataTable}`].on('click', 'tbody tr',  (e) => {
                 let classList = e.currentTarget.classList
                 if (classList.contains('selected')) {
                     classList.remove('selected')
-                    let narray = window[`dtg_${this.nameDataTable}`].selected.filter( ({position = 0}, indice) => position != e.currentTarget._DT_RowIndex)
-                    window[`dtg_${this.nameDataTable}`].selected = narray        
+                    let narray = window[`${this.nameDataTable}`].selected.filter( ({position = 0}, indice) => position != e.currentTarget._DT_RowIndex)
+                    window[`${this.nameDataTable}`].selected = narray        
                     
                 } else {
                     
                     classList.add('selected')
-                    window[`dtg_${this.nameDataTable}`].selected = [
+                    window[`${this.nameDataTable}`].selected = [
                         // ...window[`dtg_${this.nameDataTable}`].selected || [],
                         {
-                            ...window[`dtg_${this.nameDataTable}`].row(e.currentTarget._DT_RowIndex).data(),
+                            ...window[`${this.nameDataTable}`].row(e.currentTarget._DT_RowIndex).data(),
                             position : e.currentTarget._DT_RowIndex
                         }
                     ]
                     this.RowIndexFunction()
-                    localStorage.setItem(`dtg_${this.nameDataTable}`, JSON.stringify(window[`dtg_${this.nameDataTable}`].row(e.currentTarget._DT_RowIndex).data()))
+                    localStorage.setItem(`dtg_${this.nameDataTable}`, JSON.stringify(window[`${this.nameDataTable}`].row(e.currentTarget._DT_RowIndex).data()))
                 }
             } 
         )
-        // console.log()
-        this.dataTable.on('click', 'td.dt-control',  (e) => {
-            let tr = e.target.closest('tr');
-            let row = this.dataTable.row(tr)
+       
+        window[`${this.nameDataTable}`].on('click', 'td.dt-control',  (e) => {
+            let tr = e.target.closest('tr')
+            let row = window[`${this.nameDataTable}`].row(tr)
+            
             if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();
@@ -184,9 +184,9 @@ export class DataTableGeneral {
             }
         })
 
-        // header
-        // 
-        // this.dataTable.columns.adjust().draw()
+        
+        
+        window[`${this.nameDataTable}`].columns.adjust().draw()
     }
 }
 

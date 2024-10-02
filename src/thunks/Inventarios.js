@@ -346,7 +346,6 @@ export const createInventario = (body = {}) => {
 export const getListaInvUsers = ({nameDiv = '', createdAt = ''}) => {
     return async ( dispatch, getState) => {
        
-        console.log(createdAt)
         const axiosp = new axiosPrivate()
         // 1 -> Administrador
         const { rol  } = axiosp.getItem('info_auditor') || {}

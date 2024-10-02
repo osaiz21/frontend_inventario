@@ -4,7 +4,7 @@ import { DataTableCmp } from "../DataTable/DataTable"
 import { useDispatch } from "react-redux"
 import { getListaInvUsers } from "../../thunks/Inventarios"
 
-const nameTableInv = 'table_inventario_users'
+const nameTableInv = 'dt_table_inventario_users'
 export const ListInventarioUsuario = () => {
     const dispatch = useDispatch()
     

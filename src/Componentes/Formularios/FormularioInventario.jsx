@@ -64,7 +64,6 @@ const FormularioInventario = () => {
   const searchInventRegister = async ( params = {}) => {
     try {
       await dispatch(getInventRegister(params))
-      
     } catch (error) {
       toastr.warning(error)
     }
@@ -273,8 +272,8 @@ const FormularioInventario = () => {
           />
         </div>
       
-      {/* <div className="col-3">
-        <br></br>
+      <div className="col-3">
+        {/* <br></br>
         <input
           className="btn btn-warning btn-block btn-flat"
           type="button"
@@ -282,8 +281,8 @@ const FormularioInventario = () => {
           onClick={() => {
             fnUpdateInventario()
           }}
-        />
-      </div> */}
+        /> */}
+      </div>
       </div> 
       </form>
         <div className="row">

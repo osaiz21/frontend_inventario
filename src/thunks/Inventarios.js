@@ -1,4 +1,4 @@
-import { setMateriales } from "../Slices/InventarioSlice"
+import { setActivoFijo, setMateriales } from "../Slices/InventarioSlice"
 import { axiosPrivate, DataTableGeneral, instanceXhr } from "../axios"
 
 export const getTipoActivos = (filtro = {}) => {
@@ -270,6 +270,8 @@ export const getDisponibilidad = (filtro = {}) => {
 
 export const createInventario = (body = {}) => {
     return async (dispatch, getState) => {
+        //limpiamos
+        // dispatch(setActivoFijo({}))
         // valida si existe placa
         const { placa_nueva = 0 } = body
         if ( (!!placa_nueva) ) {
@@ -406,6 +408,7 @@ export const getInventRegister = (filtro = {}) => {
             `v1/getInventario`,
             { params: filtro}
         )
+        dispatch(setActivoFijo(data))    
         if(Object.keys(data).length == 0) {
             throw new Error('No se encontro valor')
         }
@@ -422,9 +425,8 @@ export const getInventRegister = (filtro = {}) => {
             } else if (Object.keys(data)[key] === 'fotos') {
                 // console.log()
             }
+            
             //$(`#${Object.keys(data)[key]}`).val(data[Object.keys(data)[key]])
         }
-
-
     }
 }

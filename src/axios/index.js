@@ -68,11 +68,31 @@ export class DataTableGeneral {
         console.log(name, this.nameDataTable)
         window[`${this.nameDataTable}`] = new DataTable(`#${this.nameDataTable}`, 
             {
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend:'excel',
+                        title: 'Excel'
+                    },
+                    {
+                        extend:'pdf',
+                        title: 'Pdf'
+                    },
+                    {
+                        extend:'print',
+                        title: 'Print'
+                    },
+                    {
+                        extend:'csv',
+                        title: 'Csv'
+                    }
+                ],    
                 processing: true,
                 searching: false,
                 // serverSide: true,
                 ScrollXInner: "100%",
                 autoWidth: false,
+                responsive:false,
                 columns: this.columns,              
                 data: this.data,
                 destroy: true,

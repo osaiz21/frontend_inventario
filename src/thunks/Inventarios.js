@@ -425,7 +425,8 @@ export const getInventRegister = (filtro = {}) => {
                 $(`#${key}`).val( `${value}`  )
             } else if (e instanceof HTMLSelectElement ) {
                 // console.log(key,value)
-                $(`#${key}`).select2('val',`${value}`)
+                $(`#${key}`).val(`${value}`).trigger('change')
+                
                 // console.log(`#${Object.keys(data)[key]}`,`${data[Object.keys(data)[key]]}`)
                 // $(`#${key}`).trigger('change')
             } else if (e instanceof HTMLTextAreaElement) {

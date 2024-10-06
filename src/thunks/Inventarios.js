@@ -414,7 +414,7 @@ export const getInventRegister = (filtro = {}) => {
             `v1/getInventario`,
             { params: filtro}
         )
-        // dispatch(setActivoFijo(data)) 
+        dispatch(setActivoFijo(data)) 
         if(Object.keys(data).length == 0) {
             throw new Error('No se encontro valor')
         }

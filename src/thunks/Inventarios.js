@@ -1,5 +1,5 @@
 import { setFiles } from "../Slices/FilesSlice"
-import { setActivoFijo, setMateriales } from "../Slices/InventarioSlice"
+import { setActivoFijo, setEndRegistry, setMateriales } from "../Slices/InventarioSlice"
 import { axiosPrivate, DataTableGeneral, instanceXhr } from "../axios"
 
 export const getTipoActivos = (filtro = {}) => {
@@ -341,6 +341,10 @@ export const createInventario = (body = {}) => {
         )
         $('#form_activo_fijo').trigger('reset')
         $('select').val(1).trigger('change')
+
+        dispatch(setEndRegistry(data))
+        axiosp.setItem('endRegistry',data)
+        // limpiamos
         dispatch(setFiles([]))
     }
 }

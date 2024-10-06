@@ -88,6 +88,18 @@ const FormularioInventario = () => {
       toastr.warning(error)
     }
   }
+
+  const endRegistry = () => {
+    try {
+      const { id = 0 } = JSON.parse(localStorage.getItem('endRegistry')) || {}
+      searchInventRegister({
+        id
+      })
+    } catch(error) {
+      toastr.warning('No se encontro ultimo registro')
+    }
+
+  }
   useEffect(() => {
     dispatch(getTipoActivos())
     dispatch(getTipoMateriales())
@@ -312,6 +324,9 @@ const FormularioInventario = () => {
           <div className="col-xs-12 col-sm-4 mt-1 mb-2">
             <button
               className="btn btn-primary btn-block btn-flat"
+              onClick={() => {
+                endRegistry()
+              }}
             >Valor Anterior</button>
           </div>
           {/* <div className="col-3">

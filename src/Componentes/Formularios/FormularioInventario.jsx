@@ -1,8 +1,18 @@
 import { useEffect, useState  } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import * as yup from "yup";
-import { createInventario, getColores, getDisponibilidad, getEstados, getInventRegister, getMarcas, getModelos, getTipoActivos, getTipoMateriales } from '../../thunks/Inventarios'
+import { 
+  createInventario, 
+  getColores, 
+  getDisponibilidad, 
+  getEstados, 
+  getInventRegister,
+  getMarcas,
+  getModelos,
+  getTipoActivos,
+  getTipoMateriales, 
+  updInventario } from '../../thunks/Inventarios'
 import { ViewFiles } from '../Files/ViewFiles'
 import { setFiles } from '../../Slices/FilesSlice'
 
@@ -10,7 +20,8 @@ import { setFiles } from '../../Slices/FilesSlice'
 const FormularioInventario = () => {
   const dispatch = useDispatch()
   const { register, formState:{errors}, handleSubmit } = useForm()
-  const [arrayFiles,setArrayFiles] = useState([])
+  const { id:idupdActivo = 0 } = useSelector(state => state.inventario.updActivofijo)
+  
 
   const schema = yup.object({
     placa_nueva: yup.string().required(),
@@ -26,13 +37,12 @@ const FormularioInventario = () => {
       let dataForm = $('#form_activo_fijo').serializeArray()
       let formSend = {}
       for ( let valForm in dataForm ) {
-        const {name = '0', value = 0 } = dataForm[valForm]
+        const {name = '', value = 1 } = dataForm[valForm]
         formSend[name] = value
       }
-
       await dispatch(createInventario(formSend))
       toastr.success(`Se Registro Correctamente `)
-      dispatch(setFiles([]))
+      
     } catch (error) {
       toastr.error(error.message || error.mns || error.stack  || error)
     }
@@ -40,25 +50,35 @@ const FormularioInventario = () => {
 
   const fnUpdateInventario = async (e) => {
     try {
-      console.log('Actualizar')
+      let dataForm = $('#form_activo_fijo').serializeArray()
+      let formSend = {}
+      for ( let valForm in dataForm ) {
+        const {name = '', value = 1 } = dataForm[valForm]
+        formSend[name] = value
+      }
+      dispatch(updInventario(formSend))
+      toastr.success(`Se Actualizo correctamente `)
     } catch (error) {
       console.error('Actualizar')
     }
   }
 
   const onPreviewFile = (e) => {
-    
+    let files = []
     for (const key in e.target.files) {
       if (!isNaN(key)) {
         let imageBase64View = window.URL.createObjectURL(e.target.files[key])
         const { name , type } = e.target.files[key]
-        setArrayFiles(ant => [...ant, {
+        files = [ ...files, 
+        {
           imageBase64View,
           name,
           type
-        }])
+        }
+      ]
       }
     }
+    dispatch(setFiles(files))
   }
   
   const searchInventRegister = async ( params = {}) => {
@@ -78,11 +98,10 @@ const FormularioInventario = () => {
     dispatch(getDisponibilidad())
   },[])
 
+
   useEffect(() => {
-    if (!!arrayFiles.length) {
-      dispatch(setFiles(arrayFiles))
-    }
-  },[arrayFiles])
+    
+  },[idupdActivo])
 
   useEffect(() => {
    
@@ -151,9 +170,10 @@ const FormularioInventario = () => {
       </div>
       <div className="col-6">
         <label>Especificaci&oacute;n</label>
-        <input
+        <textarea
           {...register("especificacion")}
-          className ={`form-control ${errors.especificacion && 'is-invalid'}`} 
+          className ={`form-control ${errors.especificacion && 'is-invalid'}`}
+          id="especificacion"
         />
       </div>
     </div>
@@ -192,8 +212,6 @@ const FormularioInventario = () => {
       </div>
     </div>
     <div className="row">
-      
-      
     </div>    
     <div className="row">
       <div className="col-6">
@@ -263,7 +281,7 @@ const FormularioInventario = () => {
         </div>
       </div>
       <div className="row">
-        <div className="col-3">
+        <div className="col-xs-12 col-sm-4 ">
           <br></br>
           <input
             className="btn btn-success btn-block btn-flat"
@@ -272,27 +290,31 @@ const FormularioInventario = () => {
           />
         </div>
       
-      <div className="col-3">
-        {/* <br></br>
-        <input
-          className="btn btn-warning btn-block btn-flat"
-          type="button"
-          value='Actualizar'
-          onClick={() => {
-            fnUpdateInventario()
-          }}
-        /> */}
+      <div className="col-xs-12 col-sm-4">
+        <br></br>
+        {
+          idupdActivo > 0 && (
+            <input
+              className=" btn btn-warning btn-block btn-flat"
+              type="button"
+              value='Actualizar'
+              onClick={() => {
+                fnUpdateInventario()
+              }}
+            /> 
+          )
+        }
+        
       </div>
       </div> 
       </form>
         <div className="row">
-          <div className="col-3">
-            <br></br>
+          <div className="col-xs-12 col-sm-4 mt-1 mb-2">
             <button
               className="btn btn-primary btn-block btn-flat"
             >Valor Anterior</button>
           </div>
-          <div className="col-3">
+          {/* <div className="col-3">
             <br></br>
             <button
               className="btn btn-primary btn-block btn-flat"
@@ -309,7 +331,7 @@ const FormularioInventario = () => {
             <button
               className="btn btn-primary btn-block btn-flat"
             >Imprimir</button>
-          </div>
+          </div> */}
       </div>
       <ViewFiles/>
       

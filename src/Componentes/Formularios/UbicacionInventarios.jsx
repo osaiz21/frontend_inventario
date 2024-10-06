@@ -11,7 +11,6 @@ import { setDataFormUbicacionInventario } from "../../Slices/UbicacionInventario
   const { infoUbicacion, codigoPlanoSelected , form_ubicacion_inventarios } = useSelector(state => state.ubicacionInventario)
   const sendForm = async () => {
     try {
-
       await dispatch(crearUbicacionPlano({
         ...form_ubicacion_inventarios
       }))

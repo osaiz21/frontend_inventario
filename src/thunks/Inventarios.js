@@ -1,3 +1,4 @@
+import { setFiles } from "../Slices/FilesSlice"
 import { setActivoFijo, setMateriales } from "../Slices/InventarioSlice"
 import { axiosPrivate, DataTableGeneral, instanceXhr } from "../axios"
 
@@ -338,8 +339,9 @@ export const createInventario = (body = {}) => {
             `v1/createInventario`,
             form    
         )
-        
         $('#form_activo_fijo').trigger('reset')
+        $('select').val(1).trigger('change')
+        dispatch(setFiles([]))
     }
 }
 
@@ -421,12 +423,60 @@ export const getInventRegister = (filtro = {}) => {
             } else if (e instanceof HTMLSelectElement) {
                 $(`#${Object.keys(data)[key]}`).select2('val',`${data[Object.keys(data)[key]]}`) 
             } else if (e instanceof HTMLTextAreaElement) {
-                // console.log(3)
+                $(`#${Object.keys(data)[key]}`).val( data[Object.keys(data)[key]] )
             } else if (Object.keys(data)[key] === 'fotos') {
                 // console.log()
             }
             
             //$(`#${Object.keys(data)[key]}`).val(data[Object.keys(data)[key]])
         }
+    }
+}
+
+export const updInventario = (body = {}) => {
+    return async (dispatch, getState) => {
+        
+        // Cargamos Imagenes.
+        const { updActivofijo = {} } = getState().inventario
+        if (!Object.keys(updActivofijo).length) {
+            throw new Error('No se logro Actualizar')
+        }
+        const { id = 0, fotos:fotosupd = '[]' } = updActivofijo
+        
+        const fotos = document.getElementById("fotos")
+        const formData = new FormData()
+        const axiosp = new axiosPrivate()
+        
+
+        for (let i =0; i < fotos.files.length; i++) {
+            formData.append("fotos", fotos.files[i])
+        }
+        
+        let { data:foto = [] } = await instanceXhr.post(
+            `v1/uploadFiles`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }    
+        )
+        foto = [
+            ...foto,
+            ...JSON.parse(fotosupd) || []
+        ]
+        const form = {
+            ...body,
+            "fotos": JSON.stringify(foto)
+        }
+        
+        const { data } = await instanceXhr.put(
+            `v1/updInventario/${id}`,
+            form    
+        )
+        $('#form_activo_fijo').trigger('reset')
+        $('select').val(1).trigger('change')
+        dispatch(setActivoFijo({}))
+        dispatch(setFiles([]))
     }
 }

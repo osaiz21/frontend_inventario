@@ -414,26 +414,28 @@ export const getInventRegister = (filtro = {}) => {
             `v1/getInventario`,
             { params: filtro}
         )
-        dispatch(setActivoFijo(data))    
+        // dispatch(setActivoFijo(data)) 
         if(Object.keys(data).length == 0) {
             throw new Error('No se encontro valor')
         }
 
-        for (const key in Object.keys(data)) {
-            // console.log(key,data)
-            var e = document.getElementById(`${Object.keys(data)[key]}`)
+        for (const [key, value] of Object.entries(data)) {
+            var e = document.getElementById(`${key}`)
             if (e instanceof HTMLInputElement) {
-                $(`#${Object.keys(data)[key]}`).val( data[Object.keys(data)[key]] )
-            } else if (e instanceof HTMLSelectElement) {
-                $(`#${Object.keys(data)[key]}`).select2('val',`${data[Object.keys(data)[key]]}`) 
+                $(`#${key}`).val( `${value}`  )
+            } else if (e instanceof HTMLSelectElement ) {
+                // console.log(key,value)
+                $(`#${key}`).select2('val',`${value}`)
+                // console.log(`#${Object.keys(data)[key]}`,`${data[Object.keys(data)[key]]}`)
+                // $(`#${key}`).trigger('change')
             } else if (e instanceof HTMLTextAreaElement) {
-                $(`#${Object.keys(data)[key]}`).val( data[Object.keys(data)[key]] )
-            } else if (Object.keys(data)[key] === 'fotos') {
+                $(`#${key}`).val( value )
+            } else if (key === 'fotos') {
                 // console.log()
+                //console.log(`#${Object.keys(data)[key]}`,`${data[Object.keys(data)[key]]}`)
             }
-            
-            //$(`#${Object.keys(data)[key]}`).val(data[Object.keys(data)[key]])
         }
+
     }
 }
 

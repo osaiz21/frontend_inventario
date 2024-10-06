@@ -26,10 +26,8 @@ const FormularioInventario = () => {
   const schema = yup.object({
     placa_nueva: yup.string().required(),
     placa_antigua: yup.string(),
-    nombre_activo: yup.string().required(),
     especificacion: yup.string(),
-    serie: yup.string(),
-    id_material: yup.number()
+    serie: yup.string()
   }).required();
 
   const onSubmit = async (e) => {
@@ -89,14 +87,14 @@ const FormularioInventario = () => {
     }
   }
 
-  const endRegistry = () => {
+  const endRegistry = async () => {
     try {
       const { id = 0 } = JSON.parse(localStorage.getItem('endRegistry')) || {}
-      searchInventRegister({
+      await dispatch(getInventRegister({
         id
-      })
+      }))
     } catch(error) {
-      toastr.warning('No se encontro ultimo registro')
+      //toastr.warning('No se encontro ultimo registro')
     }
 
   }
@@ -175,7 +173,10 @@ const FormularioInventario = () => {
       </div> */}
       <div className="col-6">
       <label>Lista Activos</label>
+        
         <select
+          {...register('id_activos')}
+          className={`form-control ${errors.material && 'is-invalid'}`}
           id="id_activos"
           name="id_activos"
         ></select>
@@ -193,8 +194,6 @@ const FormularioInventario = () => {
       <div className="col-6">
         <label>Lista Materiales</label>
         <select
-          {...register('material')}
-          className={`form-control ${errors.material && 'is-invalid'}`}
           id="id_material"
           name="id_material"
         ></select>
@@ -202,7 +201,7 @@ const FormularioInventario = () => {
       <div className="col-6">
         <label>Colores</label>
         <select
-          id="id_color"
+         id="id_color"
           name="id_color"
         ></select>
       </div>
@@ -211,6 +210,8 @@ const FormularioInventario = () => {
       <div className="col-6">
         <label>Modelos</label>
         <select
+          {...register('id_modelo')}
+          className={`form-control ${errors.material && 'is-invalid'}`}
           id="id_modelo"
           name="id_modelo"
         ></select>
@@ -218,13 +219,14 @@ const FormularioInventario = () => {
       <div className="col-6">
         <label>Marcas</label>
         <select
+          {...register('id_marca')}
+          className={`form-control ${errors.material && 'is-invalid'}`}
           id="id_marca"
           name="id_marca"
         ></select>
       </div>
     </div>
-    <div className="row">
-    </div>    
+      
     <div className="row">
       <div className="col-6">
         <label>Cantidad</label>
@@ -248,6 +250,8 @@ const FormularioInventario = () => {
       <div className="col-6">
         <label>Estado</label>
         <select
+          {...register('id_estado')}
+          className={`form-control ${errors.material && 'is-invalid'}`}
           id="id_estado"
           name="id_estado"
         ></select>
@@ -255,6 +259,8 @@ const FormularioInventario = () => {
       <div className="col-6">
         <label>Disponibilidad</label>
         <select
+           {...register('id_disponibilidad')}
+           className={`form-control ${errors.material && 'is-invalid'}`}
           id="id_disponibilidad"
           name="id_disponibilidad"
         ></select>
@@ -293,42 +299,44 @@ const FormularioInventario = () => {
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-12 col-sm-4 ">
-          <br></br>
+        <div className="col-xs-12 mt-1 col-sm-4 ">
           <input
             className="btn btn-success btn-block btn-flat"
             type="submit"
             value='Guardar'
           />
         </div>
-      
-      <div className="col-xs-12 col-sm-4">
-        <br></br>
-        {
-          idupdActivo > 0 && (
-            <input
-              className=" btn btn-warning btn-block btn-flat"
-              type="button"
-              value='Actualizar'
-              onClick={() => {
-                fnUpdateInventario()
-              }}
-            /> 
-          )
-        }
-        
-      </div>
       </div> 
       </form>
+      <div className="row">
+        
+          {
+            idupdActivo > 0 && (
+              <div className="col-xs-12 mt-1 col-sm-4">
+                <input
+                  className="btn btn-secondary btn-block btn-flat"
+                  type="button"
+                  value='Actualizar'
+                  onClick={() => {
+                    fnUpdateInventario()
+                  }}
+                />
+              </div>
+            )
+          }
+        <div className="col-xs-12 mt-1 col-sm-4 ">
+          <input
+            className="btn btn-info btn-block btn-flat"
+            type="button"
+            onClick={() => {
+              endRegistry()
+            }}
+            value='Valor Anterior'
+          />
+        </div>
+      </div>
         <div className="row">
-          <div className="col-xs-12 col-sm-4 mt-1 mb-2">
-            <button
-              className="btn btn-primary btn-block btn-flat"
-              onClick={() => {
-                endRegistry()
-              }}
-            >Valor Anterior</button>
-          </div>
+          
           {/* <div className="col-3">
             <br></br>
             <button
@@ -347,7 +355,7 @@ const FormularioInventario = () => {
               className="btn btn-primary btn-block btn-flat"
             >Imprimir</button>
           </div> */}
-      </div>
+        </div>
       <ViewFiles/>
       
     </>

@@ -65,7 +65,6 @@ export class DataTableGeneral {
     }
     createDataTable = (name = '') => {
         // this.addEventListener('click', () => { console.log('oswald')} , false)
-        console.log(name, this.nameDataTable)
         window[`${this.nameDataTable}`] = new DataTable(`#${this.nameDataTable}`, 
             {
                 dom: 'Bfrtip',
